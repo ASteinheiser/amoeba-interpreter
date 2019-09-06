@@ -24,7 +24,7 @@ const (
 	PLUS = "+"
 	// COMMA : separator for elements in a list
 	COMMA = ","
-	// SEMICOLON : ends a line of code
+	// SEMICOLON : ends a statement
 	SEMICOLON = ";"
 	// LPAREN : start listing function call params
 	LPAREN = "("
