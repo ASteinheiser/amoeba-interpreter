@@ -1,13 +1,12 @@
 package token
 
-// Type is the Token's type identifier
-type Type string
-
 // Token is a single element
 type Token struct {
-	Type    Type
+	Type    tokenType
 	Literal string
 }
+
+type tokenType string
 
 const (
 	// ILLEGAL : bad token
