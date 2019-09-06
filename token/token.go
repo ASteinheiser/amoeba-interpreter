@@ -2,20 +2,21 @@ package token
 
 // Token is a single element
 type Token struct {
-	Type    tokenType
+	Type    Type
 	Literal string
 }
 
-type tokenType string
+// Type is the type of token
+type Type string
 
 const (
 	// ILLEGAL : bad token
 	ILLEGAL = "ILLEGAL"
 	// EOF : end of file
 	EOF = "EOF"
-	// IDENT : identifiers or variables
+	// IDENT : identifiers or variable names
 	IDENT = "IDENT"
-	// INT : integers
+	// INT : integer literal
 	INT = "INT"
 	// ASSIGN : sets an identifier equal to a literal
 	ASSIGN = "="

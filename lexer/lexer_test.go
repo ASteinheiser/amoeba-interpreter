@@ -1,16 +1,15 @@
 package lexer
 
 import (
+	"amoeba-interpreter/token"
 	"testing"
-
-	"github.com/ASteinheiser/amoeba-interpreter/token"
 )
 
 func TestNextToken(t *testing.T) {
-	input := `=+(){},;`
+	input := `=+(){};,`
 
 	tests := []struct {
-		expectedType    token.TokenType
+		expectedType    token.Type
 		expectedLiteral string
 	}{
 		{token.ASSIGN, "="},
