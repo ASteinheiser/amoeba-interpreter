@@ -31,7 +31,7 @@ func (p *Parser) nextToken() {
 	p.peekToken = p.l.NextToken()
 }
 
-// ParseProgram generates an AST based on the input
+// ParseProgram generates an AST based on the tokens
 func (p *Parser) ParseProgram() *ast.Program {
 	return nil
 }

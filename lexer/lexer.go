@@ -12,7 +12,7 @@ type Lexer struct {
 	ch       byte // current character value
 }
 
-// New will create a Lexer to interpret the code
+// New will create a Lexer to turn source code into tokens
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
