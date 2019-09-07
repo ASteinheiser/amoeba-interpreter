@@ -38,10 +38,8 @@ func (l *Lexer) NextToken() token.Token {
 	switch l.ch {
 	case '=':
 		if l.peekChar() == '=' {
-			ch := l.ch
-			l.readChar()
+			tok.Literal = l.makeTwoCharLiteral()
 			tok.Type = token.EQ
-			tok.Literal = string(ch) + string(l.ch)
 		} else {
 			tok = newToken(token.ASSIGN, l.ch)
 		}
@@ -61,10 +59,8 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.RPAREN, l.ch)
 	case '!':
 		if l.peekChar() == '=' {
-			ch := l.ch
-			l.readChar()
+			tok.Literal = l.makeTwoCharLiteral()
 			tok.Type = token.NOT_EQ
-			tok.Literal = string(ch) + string(l.ch)
 		} else {
 			tok = newToken(token.BANG, l.ch)
 		}
@@ -136,7 +132,12 @@ func isDigit(ch byte) bool {
 func (l *Lexer) peekChar() byte {
 	if l.readPos > len(l.input) {
 		return 0
-	} else {
-		return l.input[l.readPos]
 	}
+	return l.input[l.readPos]
+}
+
+func (l *Lexer) makeTwoCharLiteral() string {
+	ch := l.ch
+	l.readChar()
+	return string(ch) + string(l.ch)
 }
