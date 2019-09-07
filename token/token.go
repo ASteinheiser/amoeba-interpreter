@@ -40,3 +40,17 @@ const (
 	// LET : initialize a new identifier
 	LET = "LET"
 )
+
+var keywords = map[string]Type{
+	"fn":  FUNCTION,
+	"let": LET,
+}
+
+// LookupIdent returns the token type for a
+// keyword or user-defined indentifier
+func LookupIdent(ident string) Type {
+	if key, ok := keywords[ident]; ok {
+		return key
+	}
+	return IDENT
+}
