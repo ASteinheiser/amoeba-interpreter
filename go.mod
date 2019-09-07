@@ -1,3 +1,3 @@
-module amoeba-interpreter
+module github.com/ASteinheiser/amoeba-interpreter
 
 go 1.13

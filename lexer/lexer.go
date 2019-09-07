@@ -1,6 +1,6 @@
 package lexer
 
-import "amoeba-interpreter/token"
+import "github.com/ASteinheiser/amoeba-interpreter/token"
 
 // Lexer is fed the program to be interpreted
 // and reads over the characters one at a time
