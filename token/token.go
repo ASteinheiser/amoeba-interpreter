@@ -22,6 +22,18 @@ const (
 	ASSIGN = "="
 	// PLUS : adds two integers
 	PLUS = "+"
+	// BANG : inverts an expression
+	BANG = "!"
+	// MINUS : subtracts two numbers
+	MINUS = "-"
+	// SLASH : divides two numbers
+	SLASH = "/"
+	// ASTERISK : multiplies two numbers
+	ASTERISK = "*"
+	// LT : checks if a number is less than another
+	LT = "<"
+	// GT : checks if a number is greater than another
+	GT = ">"
 	// COMMA : separator for elements in a list
 	COMMA = ","
 	// SEMICOLON : ends a statement
