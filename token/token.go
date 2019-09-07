@@ -54,8 +54,8 @@ const (
 	LBRACE = "{"
 	// RBRACE : close block of code
 	RBRACE = "}"
-	// FUNCTION : create a function that accepts
-	// params and returns a value
+	// FUNCTION : create a function literal that
+	// accepts params and returns a value
 	FUNCTION = "FUNCTION"
 	// LET : initialize a new identifier
 	LET = "LET"
