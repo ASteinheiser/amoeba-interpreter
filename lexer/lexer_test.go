@@ -25,6 +25,9 @@ func TestNextToken(t *testing.T) {
 		} else {
 			return false;
 		}
+
+		14 == 14;
+		18 != 6;
 	`
 
 	tests := []struct {
@@ -96,6 +99,14 @@ func TestNextToken(t *testing.T) {
 		{token.FALSE, "false"},
 		{token.SEMICOLON, ";"},
 		{token.RBRACE, "}"},
+		{token.INT, "14"},
+		{token.EQ, "=="},
+		{token.INT, "14"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "18"},
+		{token.NOT_EQ, "!="},
+		{token.INT, "6"},
+		{token.SEMICOLON, ";"},
 		{token.EOF, ""},
 	}
 

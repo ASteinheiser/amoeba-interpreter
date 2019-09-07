@@ -38,6 +38,10 @@ const (
 	LT = "<"
 	// GT : checks if a number is greater than another
 	GT = ">"
+	// EQ : checks if two values are equal
+	EQ = "=="
+	// NOT_EQ : checks if two values are NOT equal
+	NOT_EQ = "!="
 	// COMMA : separator for elements in a list
 	COMMA = ","
 	// SEMICOLON : ends a statement
