@@ -18,6 +18,10 @@ const (
 	IDENT = "IDENT"
 	// INT : integer literal
 	INT = "INT"
+	// TRUE : boolean literal for true
+	TRUE = "true"
+	// FALSE : boolean literal for false
+	FALSE = "false"
 	// ASSIGN : sets an identifier equal to a literal
 	ASSIGN = "="
 	// PLUS : adds two integers
@@ -51,11 +55,24 @@ const (
 	FUNCTION = "FUNCTION"
 	// LET : initialize a new identifier
 	LET = "LET"
+	// IF : checks if an expression is true, then does
+	// something if it is
+	IF = "if"
+	// ELSE : does something else when an "if" is false
+	ELSE = "else"
+	// RETURN : exits a function and returns a value
+	// to the caller
+	RETURN = "return"
 )
 
 var keywords = map[string]Type{
-	"fn":  FUNCTION,
-	"let": LET,
+	"fn":     FUNCTION,
+	"let":    LET,
+	"true":   TRUE,
+	"false":  FALSE,
+	"if":     IF,
+	"else":   ELSE,
+	"return": RETURN,
 }
 
 // LookupIdent returns the token type for a
