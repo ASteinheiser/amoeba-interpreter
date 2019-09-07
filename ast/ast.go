@@ -45,8 +45,8 @@ func (ls *LetStatement) statementNode() {}
 // TokenLiteral returns the token literal for the let statement
 func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
 
-// Identifier is an Expression Node that is bound to an expression
-// Used to create a new variable or return a variables value
+// Identifier is an Expression Node that is bound to an expression,
+// used to create a new variable or return a variables value
 type Identifier struct {
 	Token token.Token // should be token.IDENT
 	Value string

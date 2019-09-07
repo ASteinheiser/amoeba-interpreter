@@ -19,7 +19,7 @@ Hello ANDREW, Welcome to the Amoeba REPL!
 You can like... type code and stuff...
 
 ¯\_(ツ)_/¯ >>>> let x = 7;
-¯\_(ツ)_/¯ >>>> x == 8
+¯\_(ツ)_/¯ >>>> x == 8;
 
 false
 
