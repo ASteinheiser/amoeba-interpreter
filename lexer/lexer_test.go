@@ -8,13 +8,13 @@ import (
 
 func TestNextToken(t *testing.T) {
 	input := `let four = 4;
-let seven = 7;
+let seventeen = 17;
 
 let add = fn(a, b) {
 	a + b;
 };
 
-let result = add(four, seven);
+let result = add(four, seventeen);
 `
 
 	tests := []struct {
@@ -22,28 +22,28 @@ let result = add(four, seven);
 		expectedLiteral string
 	}{
 		{token.LET, "let"},
-		{token.IDENT, "five"},
+		{token.IDENT, "four"},
 		{token.ASSIGN, "="},
-		{token.INT, "5"},
+		{token.INT, "4"},
 		{token.SEMICOLON, ";"},
 		{token.LET, "let"},
-		{token.IDENT, "ten"},
+		{token.IDENT, "seventeen"},
 		{token.ASSIGN, "="},
-		{token.INT, "10"},
+		{token.INT, "17"},
 		{token.SEMICOLON, ";"},
 		{token.LET, "let"},
 		{token.IDENT, "add"},
 		{token.ASSIGN, "="},
 		{token.FUNCTION, "fn"},
 		{token.LPAREN, "("},
-		{token.IDENT, "x"},
+		{token.IDENT, "a"},
 		{token.COMMA, ","},
-		{token.IDENT, "y"},
+		{token.IDENT, "b"},
 		{token.RPAREN, ")"},
 		{token.LBRACE, "{"},
-		{token.IDENT, "x"},
+		{token.IDENT, "a"},
 		{token.PLUS, "+"},
-		{token.IDENT, "y"},
+		{token.IDENT, "b"},
 		{token.SEMICOLON, ";"},
 		{token.RBRACE, "}"},
 		{token.SEMICOLON, ";"},
@@ -52,9 +52,9 @@ let result = add(four, seven);
 		{token.ASSIGN, "="},
 		{token.IDENT, "add"},
 		{token.LPAREN, "("},
-		{token.IDENT, "five"},
+		{token.IDENT, "four"},
 		{token.COMMA, ","},
-		{token.IDENT, "ten"},
+		{token.IDENT, "seventeen"},
 		{token.RPAREN, ")"},
 		{token.SEMICOLON, ";"},
 		{token.EOF, ""},
