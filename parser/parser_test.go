@@ -9,7 +9,7 @@ import (
 
 func TestLetStatements(t *testing.T) {
 	input := `
-		lets x = 4;
+		let x = 4;
 		let z = 16;
 		let blahblah = 90091;
 	`
