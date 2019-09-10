@@ -1,6 +1,8 @@
 package parser
 
 import (
+	"fmt"
+
 	"github.com/ASteinheiser/amoeba-interpreter/ast"
 	"github.com/ASteinheiser/amoeba-interpreter/lexer"
 	"github.com/ASteinheiser/amoeba-interpreter/token"
@@ -11,19 +13,35 @@ import (
 type Parser struct {
 	l *lexer.Lexer
 
+	errors []string
+
 	curToken  token.Token
 	peekToken token.Token
 }
 
 // New creates a new Parser from a given lexer
 func New(l *lexer.Lexer) *Parser {
-	p := &Parser{l: l}
+	p := &Parser{
+		l:      l,
+		errors: []string{},
+	}
 
 	// initialize both tokens by reading twice
 	p.nextToken()
 	p.nextToken()
 
 	return p
+}
+
+// Errors returns the list of parsing errors
+func (p *Parser) Errors() []string {
+	return p.errors
+}
+
+func (p *Parser) peekError(t token.Type) {
+	msg := fmt.Sprintf("expected '%s' to be %s, got %s instead",
+		p.peekToken.Literal, t, p.peekToken.Type)
+	p.errors = append(p.errors, msg)
 }
 
 func (p *Parser) nextToken() {
@@ -36,7 +54,7 @@ func (p *Parser) ParseProgram() *ast.Program {
 	program := &ast.Program{}
 	program.Statements = []ast.Statement{}
 
-	for p.curToken.Type != token.EOF {
+	for !p.curTokenIs(token.EOF) {
 		stmt := p.parseStatement()
 		if stmt != nil {
 			program.Statements = append(program.Statements, stmt)
@@ -90,5 +108,6 @@ func (p *Parser) expectPeek(t token.Type) bool {
 		p.nextToken()
 		return true
 	}
+	p.peekError(t)
 	return false
 }
