@@ -5,20 +5,27 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/ASteinheiser/amoeba-interpreter/color"
 	"github.com/ASteinheiser/amoeba-interpreter/lexer"
 	"github.com/ASteinheiser/amoeba-interpreter/token"
 )
 
-// PROMPT represents the symbols in the amoeba REPL
+// ShowPrompt represents the symbols in the amoeba REPL
 // directly before where the user types
-const PROMPT = `¯\_(ツ)_/¯ >>>> `
+func ShowPrompt() {
+	color.ChangeColor(color.Magenta, false, color.Black, false)
+	fmt.Print(`¯\_(ツ)_/¯`)
+	color.ChangeColor(color.White, true, color.Black, false)
+	fmt.Print(" >>>> ")
+	color.ResetColor()
+}
 
 // Start will start a new amoeba REPL
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 
 	for {
-		fmt.Printf(PROMPT)
+		ShowPrompt()
 		scanned := scanner.Scan()
 		if !scanned {
 			return

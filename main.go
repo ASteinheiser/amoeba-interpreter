@@ -6,6 +6,7 @@ import (
 	"os/user"
 	"strings"
 
+	"github.com/ASteinheiser/amoeba-interpreter/color"
 	"github.com/ASteinheiser/amoeba-interpreter/repl"
 )
 
@@ -15,8 +16,34 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("Hello %s, Welcome to the Amoeba REPL!\n\n",
-		strings.ToUpper(user.Username))
-	fmt.Printf("You can like... type code and stuff...\n\n")
+	showWelcomeMessage(user)
+
 	repl.Start(os.Stdin, os.Stdout)
+}
+
+func showWelcomeMessage(user *user.User) {
+	color.ChangeColor(color.None, false, color.Black, false)
+	fmt.Print("                                                 ")
+	color.ResetColor()
+	fmt.Print("\n")
+	color.ChangeColor(color.Cyan, false, color.Black, false)
+	fmt.Print("    Hello ")
+	color.ChangeColor(color.Magenta, false, color.Black, false)
+	fmt.Printf("%s", strings.ToUpper(user.Username))
+	color.ChangeColor(color.Cyan, false, color.Black, false)
+	fmt.Print(", Welcome to the Amoeba REPL!    ")
+	color.ResetColor()
+	fmt.Print("\n")
+	color.ChangeColor(color.None, false, color.Black, false)
+	fmt.Print("                                                 ")
+	color.ResetColor()
+	fmt.Print("\n")
+	color.ChangeColor(color.Cyan, false, color.Black, false)
+	fmt.Printf("    You can like... type code and stuff...       ")
+	color.ResetColor()
+	fmt.Print("\n")
+	color.ChangeColor(color.None, false, color.Black, false)
+	fmt.Print("                                                 ")
+	color.ResetColor()
+	fmt.Print("\n")
 }
