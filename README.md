@@ -14,9 +14,11 @@ An interpreter for the amoeba programming language, written from scratch in Go.
 1. `cd amoeba-interpreter`
 1. `go run main.go`
 ```
+
     Hello ANDREW, Welcome to the Amoeba REPL!
 
     You can like... type code and stuff...
+
 
 ¯\_(ツ)_/¯ >>>> let x = 7;
 ¯\_(ツ)_/¯ >>>> x == 8;
@@ -48,4 +50,5 @@ ok  	github.com/ASteinheiser/amoeba-interpreter/lexer	0.005s
 
 Parser Test Results:
 ok  	github.com/ASteinheiser/amoeba-interpreter/parser	0.005s
+
 ```

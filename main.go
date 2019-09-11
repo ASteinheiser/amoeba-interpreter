@@ -46,4 +46,5 @@ func showWelcomeMessage(user *user.User) {
 	fmt.Print("                                                 ")
 	color.ResetColor()
 	fmt.Print("\n")
+	fmt.Print("\n")
 }
