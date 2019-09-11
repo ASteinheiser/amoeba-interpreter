@@ -35,7 +35,7 @@ func (p *Program) TokenLiteral() string {
 
 // LetStatement is a Statement Node that assigns an expression to an identifier
 type LetStatement struct {
-	Token token.Token // should be token.LET
+	Token token.Token // should be a LET token
 	Name  *Identifier
 	Value Expression
 }
@@ -48,7 +48,7 @@ func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
 // Identifier is an Expression Node that is bound to an expression,
 // used to create a new variable or return a variables value
 type Identifier struct {
-	Token token.Token // should be token.IDENT
+	Token token.Token // should be an IDENT token
 	Value string
 }
 
@@ -56,3 +56,15 @@ func (i *Identifier) expressionNode() {}
 
 // TokenLiteral returns the token literal for the identifier expression
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
+
+// ReturnStatement is a Statement Node that ends a function call and
+// returns an expression to the caller
+type ReturnStatement struct {
+	Token       token.Token // should be a RETURN token
+	ReturnValue Expression
+}
+
+func (rs *ReturnStatement) statementNode() {}
+
+// TokenLiteral returns the token literal for the return statement
+func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
