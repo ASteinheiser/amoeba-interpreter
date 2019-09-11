@@ -25,3 +25,18 @@ false
 
 ¯\_(ツ)_/¯ >>>> █
 ```
+
+## Run the test suite
+The first time you run the test script, you need to give it permission to be executed:
+```
+sudo chmod +x run-tests.sh
+```
+Now you can run all the tests at once:
+```
+./run-tests.sh
+```
+You can also run the tests for a sub-module individually as long as it has a `*_test.go` file:
+```
+go test ./lexer/
+go test ./parser/
+```
