@@ -1,10 +1,17 @@
+// Package ast is an Abstract Syntax Tree, which will be used to
+// represent Amoeba programs as data that we can later evaluate
 package ast
 
-import "github.com/ASteinheiser/amoeba-interpreter/token"
+import (
+	"bytes"
+
+	"github.com/ASteinheiser/amoeba-interpreter/token"
+)
 
 // Node is a single element in a program
 type Node interface {
 	TokenLiteral() string
+	String() string
 }
 
 // Statement is a Node that tells the language to do something
@@ -33,6 +40,16 @@ func (p *Program) TokenLiteral() string {
 	return ""
 }
 
+func (p *Program) String() string {
+	var out bytes.Buffer
+
+	for _, s := range p.Statements {
+		out.WriteString(s.String())
+	}
+
+	return out.String()
+}
+
 // LetStatement is a Statement Node that assigns an expression to an identifier
 type LetStatement struct {
 	Token token.Token // should be a LET token
@@ -44,6 +61,22 @@ func (ls *LetStatement) statementNode() {}
 
 // TokenLiteral returns the token literal for the let statement
 func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
+
+func (ls *LetStatement) String() string {
+	var out bytes.Buffer
+
+	out.WriteString(ls.TokenLiteral() + " ")
+	out.WriteString(ls.Name.String())
+	out.WriteString(" = ")
+
+	if ls.Value != nil {
+		out.WriteString(ls.Value.String())
+	}
+
+	out.WriteString(";")
+
+	return out.String()
+}
 
 // Identifier is an Expression Node that is bound to an expression,
 // used to create a new variable or return a variables value
@@ -57,6 +90,8 @@ func (i *Identifier) expressionNode() {}
 // TokenLiteral returns the token literal for the identifier expression
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
 
+func (i *Identifier) String() string { return i.Value }
+
 // ReturnStatement is a Statement Node that ends a function call and
 // returns an expression to the caller
 type ReturnStatement struct {
@@ -68,3 +103,36 @@ func (rs *ReturnStatement) statementNode() {}
 
 // TokenLiteral returns the token literal for the return statement
 func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
+
+func (rs *ReturnStatement) String() string {
+	var out bytes.Buffer
+
+	out.WriteString(rs.TokenLiteral() + " ")
+
+	if rs.ReturnValue != nil {
+		out.WriteString(rs.ReturnValue.String())
+	}
+
+	out.WriteString(";")
+
+	return out.String()
+}
+
+// ExpressionStatement is a Statement Node consisting solely of an expression
+type ExpressionStatement struct {
+	Token      token.Token // first token of the expression
+	Expression Expression
+}
+
+func (es *ExpressionStatement) statementNode() {}
+
+// TokenLiteral returns the token literal for
+// the first token in the expression statement
+func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
+
+func (es *ExpressionStatement) String() string {
+	if es.Expression != nil {
+		return es.Expression.String()
+	}
+	return ""
+}
