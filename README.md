@@ -45,6 +45,7 @@ go test ./parser/
 
               ¯\_(ツ)_/¯
 
+
 AST Test Results:
 ok  	github.com/ASteinheiser/amoeba-interpreter/ast      0.005s
 
@@ -55,3 +56,7 @@ Parser Test Results:
 ok  	github.com/ASteinheiser/amoeba-interpreter/parser   0.005s
 
 ```
+
+## Backburner Features
+- [ ] add <= and => operators
+- [ ] enhance error messages with line number and file name
