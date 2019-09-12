@@ -14,7 +14,7 @@ import (
 // directly before where the user types
 func ShowPrompt() {
 	color.ChangeColor(color.Magenta, false, color.Black, false)
-	fmt.Print(`¯\_(ツ)_/¯`)
+	fmt.Print(` ¯\_(ツ)_/¯`)
 	color.ChangeColor(color.White, true, color.Black, false)
 	fmt.Print(" >>>> ")
 	color.ResetColor()

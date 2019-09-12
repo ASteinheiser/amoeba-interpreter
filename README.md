@@ -20,12 +20,12 @@ An interpreter for the amoeba programming language, written from scratch in Go.
     You can like... type code and stuff...
 
 
-¯\_(ツ)_/¯ >>>> let x = 7;
-¯\_(ツ)_/¯ >>>> x == 8;
+ ¯\_(ツ)_/¯ >>>> let x = 7;
+ ¯\_(ツ)_/¯ >>>> x == 8;
 
 false
 
-¯\_(ツ)_/¯ >>>> █
+ ¯\_(ツ)_/¯ >>>> █
 ```
 
 ## Run the test suite
