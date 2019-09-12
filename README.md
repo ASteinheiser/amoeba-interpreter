@@ -58,5 +58,10 @@ ok  	github.com/ASteinheiser/amoeba-interpreter/parser   0.005s
 ```
 
 ## Backburner Features
-- [ ] add <= and => operators
+- [ ] add <= and >= operators
 - [ ] enhance error messages with line number and file name
+- [ ] add postfix operators (such as `++`)
+
+## Potential Long-Term Goals
+- Make Amoeba Turing Complete?
+- Rewrite the Amoeba interpreter in Amoeba?
