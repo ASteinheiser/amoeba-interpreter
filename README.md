@@ -31,6 +31,7 @@ false
 ## Run the test suite
 You can run the tests for a sub-module individually as long as it has a `*_test.go` file:
 ```
+go test ./ast/
 go test ./lexer/
 go test ./parser/
 ```
@@ -44,11 +45,13 @@ go test ./parser/
 
               ¯\_(ツ)_/¯
 
+AST Test Results:
+ok  	github.com/ASteinheiser/amoeba-interpreter/ast      0.005s
 
 Lexer Test Results:
-ok  	github.com/ASteinheiser/amoeba-interpreter/lexer	0.005s
+ok  	github.com/ASteinheiser/amoeba-interpreter/lexer    0.005s
 
 Parser Test Results:
-ok  	github.com/ASteinheiser/amoeba-interpreter/parser	0.005s
+ok  	github.com/ASteinheiser/amoeba-interpreter/parser   0.005s
 
 ```

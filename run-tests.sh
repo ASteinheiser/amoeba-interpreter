@@ -13,6 +13,10 @@ echo -e "${BlackBG}${BPurple}              ¯\_(ツ)_/¯              ${NoColor}
 echo -e "${BlackBG}                                      ${NoColor}"
 echo ""
 
+echo -e "${BlackBG}${BCyan}AST Test Results:${NoColor}"
+go test ./ast/
+echo ""
+
 echo -e "${BlackBG}${BCyan}Lexer Test Results:${NoColor}"
 go test ./lexer/
 echo ""
