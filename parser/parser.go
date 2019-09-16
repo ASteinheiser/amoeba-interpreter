@@ -17,7 +17,15 @@ type Parser struct {
 
 	curToken  token.Token
 	peekToken token.Token
+
+	prefixParseFns map[token.Type]prefixParseFn
+	infixParseFns  map[token.Type]infixParseFn
 }
+
+type (
+	prefixParseFn func() ast.Expression
+	infixParseFn  func(ast.Expression) ast.Expression
+)
 
 // New creates a new Parser from a given lexer
 func New(l *lexer.Lexer) *Parser {
@@ -31,6 +39,22 @@ func New(l *lexer.Lexer) *Parser {
 	p.nextToken()
 
 	return p
+}
+
+// ParseProgram generates an AST based on the tokens
+func (p *Parser) ParseProgram() *ast.Program {
+	program := &ast.Program{}
+	program.Statements = []ast.Statement{}
+
+	for !p.curTokenIs(token.EOF) {
+		stmt := p.parseStatement()
+		if stmt != nil {
+			program.Statements = append(program.Statements, stmt)
+		}
+		p.nextToken()
+	}
+
+	return program
 }
 
 // Errors returns the list of parsing errors
@@ -64,22 +88,6 @@ func (p *Parser) expectPeek(t token.Type) bool {
 	}
 	p.peekError(t)
 	return false
-}
-
-// ParseProgram generates an AST based on the tokens
-func (p *Parser) ParseProgram() *ast.Program {
-	program := &ast.Program{}
-	program.Statements = []ast.Statement{}
-
-	for !p.curTokenIs(token.EOF) {
-		stmt := p.parseStatement()
-		if stmt != nil {
-			program.Statements = append(program.Statements, stmt)
-		}
-		p.nextToken()
-	}
-
-	return program
 }
 
 func (p *Parser) parseStatement() ast.Statement {
@@ -125,4 +133,12 @@ func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
 	}
 
 	return stmt
+}
+
+func (p *Parser) registerPrefix(tokenType token.Type, fn prefixParseFn) {
+	p.prefixParseFns[tokenType] = fn
+}
+
+func (p *Parser) registerInfix(tokenType token.Type, fn infixParseFn) {
+	p.infixParseFns[tokenType] = fn
 }
