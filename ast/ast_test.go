@@ -15,9 +15,11 @@ func TestString(t *testing.T) {
 				Token: token.Token{Type: token.LET, Literal: "let"},
 				Name: &Identifier{
 					Token: token.Token{Type: token.IDENT, Literal: "variableName"},
+					Value: "variableName",
 				},
 				Value: &Identifier{
 					Token: token.Token{Type: token.IDENT, Literal: "otherGreatVar"},
+					Value: "otherGreatVar",
 				},
 			},
 		},
