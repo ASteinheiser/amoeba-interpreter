@@ -149,3 +149,27 @@ func (il *IntegerLiteral) expressionNode() {}
 func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
 
 func (il *IntegerLiteral) String() string { return il.Token.Literal }
+
+// PrefixExpression is an Expression Node that applies
+// a prefix to another expression
+type PrefixExpression struct {
+	Token    token.Token // should be a prefix token ("!" or "-")
+	Operator string
+	Right    Expression
+}
+
+func (pe *PrefixExpression) expressionNode() {}
+
+// TokenLiteral returns the token literal for the prefix expression
+func (pe *PrefixExpression) TokenLiteral() string { return pe.Token.Literal }
+
+func (pe *PrefixExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("(")
+	out.WriteString(pe.Operator)
+	out.WriteString(pe.Right.String())
+	out.WriteString(")")
+
+	return out.String()
+}

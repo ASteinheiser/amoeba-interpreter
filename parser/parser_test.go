@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/ASteinheiser/amoeba-interpreter/ast"
@@ -181,4 +182,68 @@ func TestIntegerExpression(t *testing.T) {
 		t.Errorf("literal.TokenLiteral() is not \"%s\", got=\"%s\"",
 			"4", literal.TokenLiteral())
 	}
+}
+
+func TestPrefixExpression(t *testing.T) {
+	tests := []struct {
+		input        string
+		operator     string
+		integerValue int64
+	}{
+		{"!4;", "!", 4},
+		{"-17;", "-", 17},
+	}
+
+	for _, test := range tests {
+		l := lexer.New(test.input)
+		p := New(l)
+
+		program := p.ParseProgram()
+		checkParserErrors(t, p)
+
+		if len(program.Statements) != 1 {
+			t.Fatalf("expected program to have 1 statement, got=%d",
+				len(program.Statements))
+		}
+
+		stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+		if !ok {
+			t.Fatalf("program.Statements[0] is not a *ast.ExpressionStatement, got=%T",
+				program.Statements[0])
+		}
+
+		exp, ok := stmt.Expression.(*ast.PrefixExpression)
+		if !ok {
+			t.Fatalf("stmt.Expression is not a *ast.PrefixExpression, got=%T",
+				stmt.Expression)
+		}
+		if exp.Operator != test.operator {
+			t.Fatalf("exp.Operator is not '%s', got=\"%s\"",
+				test.operator, exp.Operator)
+		}
+
+		if !testIntegerLiteral(t, exp.Right, test.integerValue) {
+			return
+		}
+	}
+}
+
+func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
+	integer, ok := il.(*ast.IntegerLiteral)
+	if !ok {
+		t.Errorf("il is not *ast.IntegerLiteral, got=%T", il)
+		return false
+	}
+
+	if integer.Value != value {
+		t.Errorf("integer.Value was not '%d', got=%d", value, integer.Value)
+		return false
+	}
+
+	if integer.TokenLiteral() != fmt.Sprintf("%d", value) {
+		t.Errorf("integer.TokenLiteral() was not '%d', got=%s",
+			value, integer.TokenLiteral())
+	}
+
+	return true
 }
