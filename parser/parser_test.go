@@ -308,3 +308,73 @@ func TestInfixExpression(t *testing.T) {
 		}
 	}
 }
+
+func TestPrecedenceParsing(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{
+			"-x * y",
+			"((-x) * y)",
+		},
+		{
+			"!-x",
+			"(!(-x))",
+		},
+		{
+			"x + y + z",
+			"((x + y) + z)",
+		},
+		{
+			"x + y - z",
+			"((x + y) - z)",
+		},
+		{
+			"x * y * z",
+			"((x * y) * z)",
+		},
+		{
+			"x * y / z",
+			"((x * y) / z)",
+		},
+		{
+			"x + y * z + x / y - z",
+			"(((x + (y * z)) + (x / y)) - z)",
+		},
+		{
+			"4 + 5; -7 * 18",
+			"(4 + 5)((-7) * 18)",
+		},
+		{
+			"5 > 4 == 3 < 4",
+			"((5 > 4) == (3 < 4))",
+		},
+		{
+			"5 < 4 != 3 > 4",
+			"((5 < 4) != (3 > 4))",
+		},
+		{
+			"3 + 4 * 5 == 3 * 1 + 4 * 5",
+			"((3 + (4 * 5)) == ((3 * 1) + (4 * 5)))",
+		},
+		{
+			"3 + 4 * 5 == 3 * 1 + 4 * 5",
+			"((3 + (4 * 5)) == ((3 * 1) + (4 * 5)))",
+		},
+	}
+
+	for _, test := range tests {
+		l := lexer.New(test.input)
+		p := New(l)
+
+		program := p.ParseProgram()
+		checkParserErrors(t, p)
+
+		actual := program.String()
+		if actual != test.expected {
+			t.Errorf("expected:\n\"%s\"\nto evaluate to:\n\"%s\"\nbut received:\n\"%s\"",
+				test.input, test.expected, actual)
+		}
+	}
+}
