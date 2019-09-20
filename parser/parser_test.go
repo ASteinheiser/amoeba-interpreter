@@ -15,7 +15,12 @@ func checkParserErrors(t *testing.T, p *Parser) {
 		return
 	}
 
-	t.Errorf("parser has %d errors", len(errors))
+	pluralS := "s"
+	if len(errors) == 1 {
+		pluralS = ""
+	}
+	t.Errorf("parser has %d error%s", len(errors), pluralS)
+
 	for _, msg := range errors {
 		t.Errorf("parser error: %q", msg)
 	}
