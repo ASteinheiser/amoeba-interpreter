@@ -173,3 +173,29 @@ func (pe *PrefixExpression) String() string {
 
 	return out.String()
 }
+
+// InfixExpression is an Expression Node that applies
+// an operator to the expressions on either side of it
+type InfixExpression struct {
+	Token    token.Token // should be an infix token ("+", "/", "==", ">")
+	Left     Expression
+	Operator string
+	Right    Expression
+}
+
+func (ie *InfixExpression) expressionNode() {}
+
+// TokenLiteral returns the token literal for the infix expression
+func (ie *InfixExpression) TokenLiteral() string { return ie.Token.Literal }
+
+func (ie *InfixExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("(")
+	out.WriteString(ie.Left.String())
+	out.WriteString(" " + ie.Operator + " ")
+	out.WriteString(ie.Right.String())
+	out.WriteString(")")
+
+	return out.String()
+}
