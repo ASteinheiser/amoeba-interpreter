@@ -139,19 +139,32 @@ func TestIdentifierExpression(t *testing.T) {
 			program.Statements[0])
 	}
 
-	ident, ok := stmt.Expression.(*ast.Identifier)
-	if !ok {
-		t.Fatalf("stmt.Expression is not a *ast.Identifier, got=%T",
-			stmt.Expression)
+	if !testIdentifierLiteral(t, stmt.Expression, "varname") {
+		return
 	}
+}
+
+func testIdentifierLiteral(t *testing.T, exp ast.Expression, value string) bool {
+	ident, ok := exp.(*ast.Identifier)
+	if !ok {
+		t.Fatalf("exp is not a *ast.Identifier, got=\"%T\"",
+			exp)
+		return false
+	}
+
 	if ident.Value != "varName" {
 		t.Errorf("ident.Value is not \"%s\", got=\"%s\"",
 			"varName", ident.Value)
+		return false
 	}
+
 	if ident.TokenLiteral() != "varName" {
 		t.Errorf("ident.TokenLiteral() is not \"%s\", got=\"%s\"",
 			"varName", ident.TokenLiteral())
+		return false
 	}
+
+	return true
 }
 
 func TestIntegerExpression(t *testing.T) {
@@ -194,6 +207,7 @@ func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
 	if integer.TokenLiteral() != fmt.Sprintf("%d", value) {
 		t.Errorf("integer.TokenLiteral() was not \"%d\", got=\"%s\"",
 			value, integer.TokenLiteral())
+		return false
 	}
 
 	return true
