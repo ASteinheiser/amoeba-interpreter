@@ -174,19 +174,29 @@ func TestIntegerExpression(t *testing.T) {
 			program.Statements[0])
 	}
 
-	literal, ok := stmt.Expression.(*ast.IntegerLiteral)
+	if !testIntegerLiteral(t, stmt.Expression, 4) {
+		return
+	}
+}
+
+func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
+	integer, ok := il.(*ast.IntegerLiteral)
 	if !ok {
-		t.Fatalf("stmt.Expression is not a *ast.IntegerLiteral, got=%T",
-			stmt.Expression)
+		t.Errorf("il is not *ast.IntegerLiteral, got=\"%T\"", il)
+		return false
 	}
-	if literal.Value != 4 {
-		t.Errorf("literal.Value is not \"%d\", got=\"%d\"",
-			4, literal.Value)
+
+	if integer.Value != value {
+		t.Errorf("integer.Value was not \"%d\", got=\"%d\"", value, integer.Value)
+		return false
 	}
-	if literal.TokenLiteral() != "4" {
-		t.Errorf("literal.TokenLiteral() is not \"%s\", got=\"%s\"",
-			"4", literal.TokenLiteral())
+
+	if integer.TokenLiteral() != fmt.Sprintf("%d", value) {
+		t.Errorf("integer.TokenLiteral() was not \"%d\", got=\"%s\"",
+			value, integer.TokenLiteral())
 	}
+
+	return true
 }
 
 func TestPrefixExpression(t *testing.T) {
@@ -231,26 +241,6 @@ func TestPrefixExpression(t *testing.T) {
 			return
 		}
 	}
-}
-
-func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
-	integer, ok := il.(*ast.IntegerLiteral)
-	if !ok {
-		t.Errorf("il is not *ast.IntegerLiteral, got=%T", il)
-		return false
-	}
-
-	if integer.Value != value {
-		t.Errorf("integer.Value was not '%d', got=%d", value, integer.Value)
-		return false
-	}
-
-	if integer.TokenLiteral() != fmt.Sprintf("%d", value) {
-		t.Errorf("integer.TokenLiteral() was not '%d', got=%s",
-			value, integer.TokenLiteral())
-	}
-
-	return true
 }
 
 func TestInfixExpression(t *testing.T) {
