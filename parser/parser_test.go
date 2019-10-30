@@ -139,7 +139,7 @@ func TestIdentifierExpression(t *testing.T) {
 			program.Statements[0])
 	}
 
-	if !testIdentifierLiteral(t, stmt.Expression, "varName") {
+	if !testLiteralExpression(t, stmt.Expression, "varName") {
 		return
 	}
 }
@@ -167,7 +167,7 @@ func testIdentifierLiteral(t *testing.T, exp ast.Expression, value string) bool 
 }
 
 func TestIntegerExpression(t *testing.T) {
-	input := "4;"
+	input := "400;"
 
 	l := lexer.New(input)
 	p := New(l)
@@ -186,7 +186,7 @@ func TestIntegerExpression(t *testing.T) {
 			program.Statements[0])
 	}
 
-	if !testIntegerLiteral(t, stmt.Expression, 4) {
+	if !testLiteralExpression(t, stmt.Expression, 400) {
 		return
 	}
 }
@@ -214,12 +214,13 @@ func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
 
 func TestPrefixExpression(t *testing.T) {
 	tests := []struct {
-		input        string
-		operator     string
-		integerValue int64
+		input    string
+		operator string
+		value    interface{}
 	}{
 		{"!4;", "!", 4},
 		{"-17;", "-", 17},
+		{"!indentifier;", "!", "indentifier"},
 	}
 
 	for _, test := range tests {
@@ -250,7 +251,7 @@ func TestPrefixExpression(t *testing.T) {
 				test.operator, exp.Operator)
 		}
 
-		if !testIntegerLiteral(t, exp.Right, test.integerValue) {
+		if !testLiteralExpression(t, exp.Right, test.value) {
 			return
 		}
 	}
