@@ -213,26 +213,32 @@ func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
 }
 
 func TestBooleanExpression(t *testing.T) {
-	input := "false;"
+	input := `
+		false;
+		true;
+	`
+	expected := [2]bool{false, true}
 
 	l := lexer.New(input)
 	p := New(l)
 	program := p.ParseProgram()
 	checkParserErrors(t, p)
 
-	if len(program.Statements) != 1 {
-		t.Fatalf("expected program to have 1 statement, got=%d",
+	if len(program.Statements) != 2 {
+		t.Fatalf("expected program to have 2 statements, got=%d",
 			len(program.Statements))
 	}
 
-	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
-	if !ok {
-		t.Fatalf("program.Statements[0] is not a *ast.ExpressionStatement, got=%T",
-			program.Statements[0])
-	}
+	for i, stmt := range program.Statements {
+		boolean, ok := stmt.(*ast.ExpressionStatement)
+		if !ok {
+			t.Fatalf("stmt is not a *ast.ExpressionStatement, got=%T",
+				program.Statements[0])
+		}
 
-	if !testLiteralExpression(t, stmt.Expression, false) {
-		return
+		if !testLiteralExpression(t, boolean.Expression, expected[i]) {
+			return
+		}
 	}
 }
 
@@ -266,6 +272,8 @@ func TestPrefixExpression(t *testing.T) {
 		{"!4;", "!", 4},
 		{"-17;", "-", 17},
 		{"!indentifier;", "!", "indentifier"},
+		{"!true", "!", true},
+		{"!false", "!", false},
 	}
 
 	for _, test := range tests {
@@ -319,6 +327,9 @@ func TestInfixExpression(t *testing.T) {
 		{"4 != 7", 4, "!=", 7},
 		{"bob != joe", "bob", "!=", "joe"},
 		{"something + anotherVar", "something", "+", "anotherVar"},
+		{"true != false", true, "!=", false},
+		{"true == true", true, "==", true},
+		{"false == false", false, "==", false},
 	}
 
 	for _, test := range tests {
@@ -400,6 +411,22 @@ func TestPrecedenceParsing(t *testing.T) {
 		input    string
 		expected string
 	}{
+		{
+			"false",
+			"false",
+		},
+		{
+			"true",
+			"true",
+		},
+		{
+			"4 > 6 == true",
+			"((4 > 6) == true)",
+		},
+		{
+			"4 < 6 == false",
+			"((4 < 6) == false)",
+		},
 		{
 			"-x * y",
 			"((-x) * y)",
