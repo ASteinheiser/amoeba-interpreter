@@ -212,6 +212,51 @@ func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
 	return true
 }
 
+func TestBooleanExpression(t *testing.T) {
+	input := "false;"
+
+	l := lexer.New(input)
+	p := New(l)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+
+	if len(program.Statements) != 1 {
+		t.Fatalf("expected program to have 1 statement, got=%d",
+			len(program.Statements))
+	}
+
+	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("program.Statements[0] is not a *ast.ExpressionStatement, got=%T",
+			program.Statements[0])
+	}
+
+	if !testLiteralExpression(t, stmt.Expression, false) {
+		return
+	}
+}
+
+func testBooleanLiteral(t *testing.T, b ast.Expression, value bool) bool {
+	boolean, ok := b.(*ast.BooleanLiteral)
+	if !ok {
+		t.Errorf("b is not *ast.BooleanLiteral, got=\"%T\"", b)
+		return false
+	}
+
+	if boolean.Value != value {
+		t.Errorf("boolean.Value was not \"%t\", got=\"%t\"", value, boolean.Value)
+		return false
+	}
+
+	if boolean.TokenLiteral() != fmt.Sprintf("%t", value) {
+		t.Errorf("boolean.TokenLiteral() was not \"%t\", got=\"%s\"",
+			value, boolean.TokenLiteral())
+		return false
+	}
+
+	return true
+}
+
 func TestPrefixExpression(t *testing.T) {
 	tests := []struct {
 		input    string
@@ -343,6 +388,8 @@ func testLiteralExpression(
 		return testIntegerLiteral(t, exp, v)
 	case string:
 		return testIdentifierLiteral(t, exp, v)
+	case bool:
+		return testBooleanLiteral(t, exp, v)
 	}
 	t.Errorf("type of exp not handled. got=\"%T\"", exp)
 	return false

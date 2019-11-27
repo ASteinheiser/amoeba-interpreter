@@ -199,3 +199,16 @@ func (ie *InfixExpression) String() string {
 
 	return out.String()
 }
+
+// BooleanLiteral is an Expression Node consisting solely of a boolean
+type BooleanLiteral struct {
+	Token token.Token // should be a TRUE or FALSE token
+	Value bool
+}
+
+func (b *BooleanLiteral) expressionNode() {}
+
+// TokenLiteral returns the token literal for the integer
+func (b *BooleanLiteral) TokenLiteral() string { return b.Token.Literal }
+
+func (b *BooleanLiteral) String() string { return b.Token.Literal }
