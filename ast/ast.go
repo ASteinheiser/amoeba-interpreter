@@ -212,3 +212,53 @@ func (b *BooleanLiteral) expressionNode() {}
 func (b *BooleanLiteral) TokenLiteral() string { return b.Token.Literal }
 
 func (b *BooleanLiteral) String() string { return b.Token.Literal }
+
+// IfExpression is an Expression Node representing a conditional statement
+type IfExpression struct {
+	Token       token.Token // should be an IF token
+	Condition   Expression
+	Consequence *BlockStatement
+	Alternative *BlockStatement
+}
+
+func (ie *IfExpression) expressionNode() {}
+
+// TokenLiteral returns the token literal for the if
+func (ie *IfExpression) TokenLiteral() string { return ie.Token.Literal }
+
+func (ie *IfExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("if")
+	out.WriteString(ie.Condition.String())
+	out.WriteString(" ")
+	out.WriteString(ie.Consequence.String())
+
+	if ie.Alternative != nil {
+		out.WriteString("else ")
+		out.WriteString(ie.Alternative.String())
+	}
+
+	return out.String()
+}
+
+// BlockStatement is a Statement Node that contains statements
+type BlockStatement struct {
+	Token      token.Token // should be a { token
+	Statements []Statement
+}
+
+func (bs *BlockStatement) statementNode() {}
+
+// TokenLiteral returns the token literal for the beginning of the block: {
+func (bs *BlockStatement) TokenLiteral() string { return bs.Token.Literal }
+
+func (bs *BlockStatement) String() string {
+	var out bytes.Buffer
+
+	for _, s := range bs.Statements {
+		out.WriteString(s.String())
+	}
+
+	return out.String()
+}
