@@ -7,8 +7,11 @@ import (
 
 	"github.com/ASteinheiser/amoeba-interpreter/color"
 	"github.com/ASteinheiser/amoeba-interpreter/lexer"
-	"github.com/ASteinheiser/amoeba-interpreter/token"
+	"github.com/ASteinheiser/amoeba-interpreter/parser"
 )
+
+// AMOEBA is an ascii amoeba string
+const AMOEBA = ``
 
 // ShowPrompt represents the symbols in the amoeba REPL
 // directly before where the user types
@@ -33,9 +36,30 @@ func Start(in io.Reader, out io.Writer) {
 
 		line := scanner.Text()
 		l := lexer.New(line)
+		p := parser.New(l)
 
-		for tok := l.NextToken(); tok.Type != token.EOF; tok = l.NextToken() {
-			fmt.Printf("%+v\n", tok)
+		program := p.ParseProgram()
+		if len(p.Errors()) != 0 {
+			printParserErrors(out, p.Errors())
+			continue
 		}
+
+		io.WriteString(out, "\n  ")
+		io.WriteString(out, program.String())
+		io.WriteString(out, "\n\n")
 	}
+}
+
+func printParserErrors(out io.Writer, errors []string) {
+	io.WriteString(out, "\n")
+	io.WriteString(out, AMOEBA)
+	io.WriteString(out, "\n")
+	io.WriteString(out, "  Oops! Looks like your syntax got infected...\n")
+	io.WriteString(out, "    parser errors:\n\n")
+
+	color.Foreground(color.Red, false)
+	for _, msg := range errors {
+		io.WriteString(out, "      "+msg+"\n\n")
+	}
+	color.ResetColor()
 }
