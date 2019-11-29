@@ -286,7 +286,12 @@ func (p *Parser) parseIfExpression() ast.Expression {
 		return nil
 	}
 
-	expression.Consequence = p.parseBlockStatement()
+	consequence := p.parseBlockStatement()
+	if consequence == nil {
+		return nil
+	}
+
+	expression.Consequence = consequence
 
 	return expression
 }
@@ -303,6 +308,12 @@ func (p *Parser) parseBlockStatement() *ast.BlockStatement {
 			block.Statements = append(block.Statements, stmt)
 		}
 		p.nextToken()
+	}
+
+	// dont parse block statements if they don't end in a brace
+	if !p.curTokenIs(token.RBRACE) {
+		p.peekError(token.RBRACE)
+		return nil
 	}
 
 	return block

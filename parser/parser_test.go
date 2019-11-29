@@ -514,7 +514,9 @@ func TestPrecedenceParsing(t *testing.T) {
 
 func TestIfExpression(t *testing.T) {
 	input := `
-		if (x > y) { x }
+		if (x > y) {
+			x
+		}
 	`
 
 	l := lexer.New(input)
@@ -540,7 +542,7 @@ func TestIfExpression(t *testing.T) {
 			stmt.Expression)
 	}
 
-	if !testInfixLiteral(t, exp.Condition, "x", "<", "y") {
+	if !testInfixLiteral(t, exp.Condition, "x", ">", "y") {
 		return
 	}
 
@@ -592,7 +594,7 @@ func TestIfElseExpression(t *testing.T) {
 			stmt.Expression)
 	}
 
-	if !testInfixLiteral(t, exp.Condition, "x", "<", "y") {
+	if !testInfixLiteral(t, exp.Condition, "x", ">", "y") {
 		return
 	}
 
