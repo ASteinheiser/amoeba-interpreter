@@ -31,10 +31,10 @@ func TestLetStatements(t *testing.T) {
 	tests := []struct {
 		input              string
 		expectedIdentifier string
-		expectedValue      string
+		expectedValue      interface{}
 	}{
-		{`let z = 4 + 5;`, "z", "4 + 5"},
-		{`let y = false;`, "y", "false"},
+		{`let z = 4;`, "z", 4},
+		{`let y = false;`, "y", false},
 		{`let foobar = something;`, "foobar", "something"},
 	}
 
@@ -91,10 +91,10 @@ func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 func TestReturnStatements(t *testing.T) {
 	tests := []struct {
 		input              string
-		expectedExpression string
+		expectedExpression interface{}
 	}{
-		{`return 7;`, "7"},
-		{`return 4 + 5;`, "4 + 5"},
+		{`return 7;`, 7},
+		{`return true;`, true},
 		{`return foobar;`, "foobar"},
 	}
 
