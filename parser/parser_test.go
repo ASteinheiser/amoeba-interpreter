@@ -715,3 +715,97 @@ func TestFunctionParameterParsing(t *testing.T) {
 		}
 	}
 }
+
+func TestCallExpression(t *testing.T) {
+	input := `doSomethin(1, 2 - 3, 4 * 5)`
+
+	l := lexer.New(input)
+	p := New(l)
+
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+
+	if len(program.Statements) != 1 {
+		t.Fatalf("expected program to have 1 statement, got=%d",
+			len(program.Statements))
+	}
+
+	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("program.Statements[0] is not a *ast.ExpressionStatement, got=%T",
+			program.Statements[0])
+	}
+
+	call, ok := stmt.Expression.(*ast.CallExpression)
+	if !ok {
+		t.Fatalf("stmt.Expression is not a *ast.CallExpression, got=%T",
+			stmt.Expression)
+	}
+
+	if !testIdentifierLiteral(t, call.Function, "doSomethin") {
+		return
+	}
+
+	if len(call.Arguments) != 3 {
+		t.Fatalf("call.Arguments length not 3, got=%d", len(call.Arguments))
+	}
+
+	testLiteralExpression(t, call.Arguments[0], 1)
+	testInfixLiteral(t, call.Arguments[1], 2, "-", 3)
+	testInfixLiteral(t, call.Arguments[2], 4, "*", 5)
+}
+
+func TestCallExpressionParameterParsing(t *testing.T) {
+	tests := []struct {
+		input         string
+		expectedIdent string
+		expectedArgs  []string
+	}{
+		{
+			input:         "doSomethin();",
+			expectedIdent: "doSomethin",
+			expectedArgs:  []string{},
+		},
+		{
+			input:         "doSomethin(1);",
+			expectedIdent: "doSomethin",
+			expectedArgs:  []string{"1"},
+		},
+		{
+			input:         "doSomethin(1, 2 - 3, 4 * 5);",
+			expectedIdent: "doSomethin",
+			expectedArgs:  []string{"1", "(2 - 3)", "(4 * 5)"},
+		},
+	}
+
+	for _, test := range tests {
+		l := lexer.New(test.input)
+		p := New(l)
+
+		program := p.ParseProgram()
+		checkParserErrors(t, p)
+
+		stmt := program.Statements[0].(*ast.ExpressionStatement)
+		call, ok := stmt.Expression.(*ast.CallExpression)
+		if !ok {
+			t.Fatalf("stmt.Expression is not ast.CallExpression, got=%T",
+				stmt.Expression)
+		}
+
+		if !testLiteralExpression(t, call.Function, test.expectedIdent) {
+			return
+		}
+
+		if len(call.Arguments) != len(test.expectedArgs) {
+			t.Fatalf("call.Arguments length not %d, got=%d",
+				len(test.expectedArgs), len(call.Arguments))
+		}
+
+		for i, arg := range test.expectedArgs {
+			if call.Arguments[i].String() != arg {
+				t.Errorf("argument %d wrong, expected=%q, got=%q", i,
+					arg, call.Arguments[i].String())
+			}
+		}
+	}
+}
