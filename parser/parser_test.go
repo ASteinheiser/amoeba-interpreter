@@ -568,7 +568,11 @@ func TestIfExpression(t *testing.T) {
 
 func TestIfElseExpression(t *testing.T) {
 	input := `
-		if (x > y) { x } else { 7 }
+		if (x > y) {
+			x
+		} else {
+			7
+		}
 	`
 
 	l := lexer.New(input)
