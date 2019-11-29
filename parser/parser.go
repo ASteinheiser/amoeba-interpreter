@@ -74,6 +74,7 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerPrefix(token.FALSE, p.parseBoolean)
 	p.registerPrefix(token.LPAREN, p.parseGroupedExpression)
 	p.registerPrefix(token.IF, p.parseIfExpression)
+	p.registerPrefix(token.FUNCTION, p.parseFunctionLiteral)
 
 	p.infixParseFns = make(map[token.Type]infixParseFn)
 	p.registerInfix(token.PLUS, p.parseInfixExpression)
@@ -286,8 +287,8 @@ func (p *Parser) parseIfExpression() ast.Expression {
 		return nil
 	}
 
-	consequence := p.parseBlockStatement()
-	if consequence == nil {
+	consequence, ok := p.parseBlockStatement()
+	if !ok {
 		return nil
 	}
 
@@ -300,8 +301,8 @@ func (p *Parser) parseIfExpression() ast.Expression {
 			return nil
 		}
 
-		alternative := p.parseBlockStatement()
-		if alternative == nil {
+		alternative, ok := p.parseBlockStatement()
+		if !ok {
 			return nil
 		}
 
@@ -311,9 +312,10 @@ func (p *Parser) parseIfExpression() ast.Expression {
 	return expression
 }
 
-func (p *Parser) parseBlockStatement() *ast.BlockStatement {
+func (p *Parser) parseBlockStatement() (*ast.BlockStatement, bool) {
 	block := &ast.BlockStatement{Token: p.curToken}
 	block.Statements = []ast.Statement{}
+	ok := true
 
 	p.nextToken()
 
@@ -328,10 +330,10 @@ func (p *Parser) parseBlockStatement() *ast.BlockStatement {
 	// dont parse block statements if they don't end in a brace
 	if !p.curTokenIs(token.RBRACE) {
 		p.peekError(token.RBRACE)
-		return nil
+		ok = false
 	}
 
-	return block
+	return block, ok
 }
 
 func (p *Parser) parsePrefixExpression() ast.Expression {
@@ -373,4 +375,55 @@ func (p *Parser) curPrecedence() int {
 		return p
 	}
 	return LOWEST
+}
+
+func (p *Parser) parseFunctionLiteral() ast.Expression {
+	function := &ast.FunctionLiteral{Token: p.curToken}
+
+	if !p.expectPeek(token.LPAREN) {
+		return nil
+	}
+
+	function.Parameters = p.parseFunctionParameters()
+
+	if !p.expectPeek(token.LBRACE) {
+		return nil
+	}
+
+	body, ok := p.parseBlockStatement()
+	if !ok {
+		return nil
+	}
+
+	function.Body = body
+
+	return function
+}
+
+func (p *Parser) parseFunctionParameters() []*ast.Identifier {
+	identifiers := []*ast.Identifier{}
+
+	if p.peekTokenIs(token.RPAREN) {
+		p.nextToken()
+		return identifiers
+	}
+
+	p.nextToken()
+
+	ident := &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+	identifiers = append(identifiers, ident)
+
+	for p.peekTokenIs(token.COMMA) {
+		p.nextToken()
+		p.nextToken()
+
+		ident := &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+		identifiers = append(identifiers, ident)
+	}
+
+	if !p.expectPeek(token.RPAREN) {
+		return nil
+	}
+
+	return identifiers
 }
