@@ -9,10 +9,9 @@ An interpreter for the amoeba programming language, written from scratch in Go.
 - closures
 
 ## Run the Amoeba REPL
-1. Install [Go](https://golang.org/dl/)
 1. `git clone https://github.com/ASteinheiser/amoeba-interpreter.git`
 1. `cd amoeba-interpreter`
-1. `go run main.go`
+1. `./amoeba-interpreter`
 ```
 
     Hello ANDREW, Welcome to the Amoeba REPL!
@@ -21,12 +20,41 @@ An interpreter for the amoeba programming language, written from scratch in Go.
 
 
  ¯\_(ツ)_/¯ >>>> let x = 7;
+
+  x = 7
+
  ¯\_(ツ)_/¯ >>>> x == 8;
 
-false
+  false
+
+ ¯\_(ツ)_/¯ >>>> let y 4
+
+             ,,,,g,
+           #"`    `@
+          @        \b
+          jb    ##m @      ,smWWm
+           7m  ]#### '`7^""      @
+             %p 7##b      #j@     b
+              @            ,,,,,,M`
+              @    ,w    ,M|'
+            ,#`   7m#`  ]b
+            @b         {^
+             %m     a#/
+               ^""`^
+
+  Oops! Looks like your syntax got infected...
+    parser errors:
+
+      expected '4' to be =, got INT instead
 
  ¯\_(ツ)_/¯ >>>> █
 ```
+
+## Local Dev
+1. Install [Go](https://golang.org/dl/)
+1. `git clone https://github.com/ASteinheiser/amoeba-interpreter.git`
+1. `cd amoeba-interpreter`
+1. `go run main.go`
 
 ## Run the test suite
 You can run the tests for a sub-module individually as long as it has a `*_test.go` file:
