@@ -24,3 +24,7 @@ echo ""
 echo -e "${BlackBG}${BCyan}Parser Test Results:${NoColor}"
 go test ./parser/
 echo ""
+
+echo -e "${BlackBG}${BCyan}Evaluator Test Results:${NoColor}"
+go test ./evaluator/
+echo ""

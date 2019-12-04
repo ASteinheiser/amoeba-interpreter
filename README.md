@@ -25,12 +25,17 @@ You can run the tests for a sub-module individually as long as it has a `*_test.
 go test ./ast/
 go test ./lexer/
 go test ./parser/
+go test ./evaluator/
 ```
 **OR** you can run all the tests at once:
 ```
 ./run-tests.sh
 ```
-![Tests screenshot](tests.png?raw=true "Tests screenshot")
+<img
+  src="https://s3-us-west-2.amazonaws.com/images.iamandrew.io/Screen+Shot+2019-12-04+at+12.50.45+AM.png"
+  width="600px"
+  alt="Tests Screenshot"
+/>
 
 ## Backburner Features
 - [ ] don't allow tokens to have spaces in between them
