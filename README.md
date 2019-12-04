@@ -30,6 +30,7 @@ go test ./parser/
 ```
 ./run-tests.sh
 ```
+![Tests screenshot](tests.png?raw=true "Tests screenshot")
 
 ## Backburner Features
 - [ ] don't allow tokens to have spaces in between them
