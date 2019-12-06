@@ -6,6 +6,7 @@ import (
 	"io"
 
 	"github.com/ASteinheiser/amoeba-interpreter/color"
+	"github.com/ASteinheiser/amoeba-interpreter/evaluator"
 	"github.com/ASteinheiser/amoeba-interpreter/lexer"
 	"github.com/ASteinheiser/amoeba-interpreter/parser"
 )
@@ -31,9 +32,12 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		io.WriteString(out, "\n  ")
-		io.WriteString(out, program.String())
-		io.WriteString(out, "\n\n")
+		evaluated := evaluator.Eval(program)
+		if evaluated != nil {
+			io.WriteString(out, "\n  ")
+			io.WriteString(out, evaluated.Inspect())
+			io.WriteString(out, "\n\n")
+		}
 	}
 }
 
