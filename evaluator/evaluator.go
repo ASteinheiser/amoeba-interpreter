@@ -6,9 +6,11 @@ import (
 )
 
 var (
-	// TRUE is the boolean object for true
+	// NULL is the object for null values
+	NULL = &object.Null{}
+	// TRUE is the boolean object for true values
 	TRUE = &object.Boolean{Value: true}
-	// FALSE is the boolean object for false
+	// FALSE is the boolean object for false values
 	FALSE = &object.Boolean{Value: false}
 )
 
