@@ -38,6 +38,7 @@ go test ./evaluator/
 />
 
 ## Backburner Features
+- [ ] allow repl to take a file as arg
 - [ ] don't allow tokens to have spaces in between them
 - [ ] add <= and >= operators
 - [ ] enhance error messages with line number and file name
