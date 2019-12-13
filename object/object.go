@@ -12,6 +12,8 @@ const (
 	BOOLEAN_OBJ = "BOOLEAN"
 	// NULL_OBJ is the object type for nulls
 	NULL_OBJ = "NULL"
+	// RETURN_VALUE_OBJ is the object type for return values
+	RETURN_VALUE_OBJ = "RETURN_VALUE"
 )
 
 // Object is a wrapper for values that we evaluate
@@ -50,3 +52,14 @@ func (n *Null) Inspect() string { return "null" }
 
 // Type returns the type string for the null
 func (n *Null) Type() Type { return NULL_OBJ }
+
+// ReturnValue is the object that holds return values
+type ReturnValue struct {
+	Value Object
+}
+
+// Inspect returns a string with the value of the return value
+func (rv *ReturnValue) Inspect() string { return rv.Value.Inspect() }
+
+// Type returns the type string for the return value
+func (rv *ReturnValue) Type() Type { return RETURN_VALUE_OBJ }
