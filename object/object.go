@@ -14,6 +14,8 @@ const (
 	NULL_OBJ = "NULL"
 	// RETURN_VALUE_OBJ is the object type for return values
 	RETURN_VALUE_OBJ = "RETURN_VALUE"
+	// ERROR_OBJ is the object type for errors
+	ERROR_OBJ = "ERROR"
 )
 
 // Object is a wrapper for values that we evaluate
@@ -63,3 +65,14 @@ func (rv *ReturnValue) Inspect() string { return rv.Value.Inspect() }
 
 // Type returns the type string for the return value
 func (rv *ReturnValue) Type() Type { return RETURN_VALUE_OBJ }
+
+// Error is the object that holds internal error messages
+type Error struct {
+	Message string
+}
+
+// Inspect returns a string with the message of the error
+func (e *Error) Inspect() string { return "ERROR: " + e.Message }
+
+// Type returns the type string for the error
+func (e *Error) Type() Type { return ERROR_OBJ }
