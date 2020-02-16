@@ -224,6 +224,17 @@ func TestErrorHandling(t *testing.T) {
 			`,
 			"unknown operator: BOOLEAN + BOOLEAN",
 		},
+		{
+			`
+			if (4 > 1) {
+				if (3 > 1) {
+					true - false;
+				}
+				return 8;
+			}
+			`,
+			"unknown operator: BOOLEAN - BOOLEAN",
+		},
 	}
 
 	for _, test := range tests {
@@ -236,7 +247,7 @@ func TestErrorHandling(t *testing.T) {
 		}
 
 		if errObj.Message != test.expectedMessage {
-			t.Errorf("expected errObj.Message to be %q, got=%q", errObj.Message, errObj.Message)
+			t.Errorf("expected errObj.Message to be %q, got=%q", test.expectedMessage, errObj.Message)
 		}
 	}
 }
