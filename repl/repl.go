@@ -8,12 +8,14 @@ import (
 	"github.com/ASteinheiser/amoeba-interpreter/color"
 	"github.com/ASteinheiser/amoeba-interpreter/evaluator"
 	"github.com/ASteinheiser/amoeba-interpreter/lexer"
+	"github.com/ASteinheiser/amoeba-interpreter/object"
 	"github.com/ASteinheiser/amoeba-interpreter/parser"
 )
 
 // Start will start a new amoeba REPL
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
+	env := object.NewEnvironment()
 
 	for {
 		ShowPrompt()
@@ -36,7 +38,7 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		evaluated := evaluator.Eval(program)
+		evaluated := evaluator.Eval(program, env)
 		if evaluated != nil {
 			io.WriteString(out, "\n  ")
 			io.WriteString(out, evaluated.Inspect())
