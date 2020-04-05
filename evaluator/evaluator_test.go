@@ -296,3 +296,21 @@ func TestEvalFunctionExpression(t *testing.T) {
 		t.Fatalf("body is not %q, got=%q", expectedBody, fn.Body.String())
 	}
 }
+
+func TestEvalFunctionCall(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected int64
+	}{
+		{"let identify = fn(x) { x; }; identify(4);", 4},
+		{"let identify = fn(x) { return x }; identify(4)", 4},
+		{"let double = fn(x) { x * 2 }; double(4)", 8},
+		{"let add = fn(x, y) { x + y }; add(4, 7)", 11},
+		{"let add = fn(x, y) { x + y }; add(5 + 5, add(7 + 3))", 20},
+		{"fn(x) { x }(4)", 4},
+	}
+
+	for _, test := range tests {
+		testIntegerObject(t, testEval(test.input), test.expected)
+	}
+}
