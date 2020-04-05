@@ -1,6 +1,11 @@
 package object
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+	"github.com/ASteinheiser/amoeba-interpreter/ast"
+	"strings"
+)
 
 // Type is the type of an object
 type Type string
@@ -16,6 +21,8 @@ const (
 	RETURN_VALUE_OBJ = "RETURN_VALUE"
 	// ERROR_OBJ is the object type for errors
 	ERROR_OBJ = "ERROR"
+	// FUNCTION_OBJ is the object type for functions
+	FUNCTION_OBJ = "FUNCTION"
 )
 
 // Object is a wrapper for values that we evaluate
@@ -76,3 +83,32 @@ func (e *Error) Inspect() string { return "ERROR: " + e.Message }
 
 // Type returns the type string for the error
 func (e *Error) Type() Type { return ERROR_OBJ }
+
+// Function is the object that holds the reference to an executable function
+type Function struct {
+	Parameters []*ast.Identifier
+	Body       *ast.BlockStatement
+	Env        *Environment
+}
+
+// Type returns the type string for the function
+func (f *Function) Type() Type { return FUNCTION_OBJ }
+
+// Inspect returns a string representing the function
+func (f *Function) Inspect() string {
+	var out bytes.Buffer
+
+	params := []string{}
+	for _, p := range f.Parameters {
+		params = append(params, p.String())
+	}
+
+	out.WriteString("fn")
+	out.WriteString("(")
+	out.WriteString(strings.Join(params, ", "))
+	out.WriteString(") {\n")
+	out.WriteString(f.Body.String())
+	out.WriteString("\n}")
+
+	return out.String()
+}

@@ -287,8 +287,9 @@ func (fl *FunctionLiteral) String() string {
 	out.WriteString(fl.TokenLiteral())
 	out.WriteString("(")
 	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(") ")
+	out.WriteString(") {\n")
 	out.WriteString(fl.Body.String())
+	out.WriteString("\n}")
 
 	return out.String()
 }
