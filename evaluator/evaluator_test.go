@@ -272,3 +272,27 @@ func TestEvalLetStatements(t *testing.T) {
 		testIntegerObject(t, testEval(test.input), test.expected)
 	}
 }
+
+func TestEvalFunctionExpression(t *testing.T) {
+	input := "fn(y) { y + 4 };"
+	expectedParam := "y"
+	expectedBody := "(y + 4)"
+
+	evaluated := testEval(input)
+	fn, ok := evaluated.(*object.Function)
+	if !ok {
+		t.Fatalf("fn not of type *object.Function, got=%T (%+v)", evaluated, evaluated)
+	}
+
+	if len(fn.Parameters) != 1 {
+		t.Fatalf("function parameters are incorrect, got=%+v", fn.Parameters)
+	}
+
+	if fn.Parameters[0].String() != expectedParam {
+		t.Fatalf("parameter is not %q, got=%q", expectedParam, fn.Parameters[0])
+	}
+
+	if fn.Body.String() != expectedBody {
+		t.Fatalf("body is not %q, got=%q", expectedBody, fn.Body.String())
+	}
+}
