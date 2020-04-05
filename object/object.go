@@ -3,8 +3,9 @@ package object
 import (
 	"bytes"
 	"fmt"
-	"github.com/ASteinheiser/amoeba-interpreter/ast"
 	"strings"
+
+	"github.com/ASteinheiser/amoeba-interpreter/ast"
 )
 
 // Type is the type of an object
