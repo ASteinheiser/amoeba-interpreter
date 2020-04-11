@@ -331,19 +331,28 @@ func TestClosures(t *testing.T) {
 	testIntegerObject(t, testEval(input), 10)
 }
 
+func testStringObject(t *testing.T, obj object.Object, expected string) bool {
+	result, ok := obj.(*object.String)
+	if !ok {
+		t.Errorf("obj not of type *object.String, got=%T (%+v)", obj, obj)
+		return false
+	}
+
+	if result.Value != expected {
+		t.Errorf("expected obj.Value to be %q, got=%q", expected, result.Value)
+		return false
+	}
+
+	return true
+}
+
 func TestEvalStringExpression(t *testing.T) {
 	input := `"Hello world!"`
 	expected := "Hello world!"
 
 	evaluated := testEval(input)
-	str, ok := evaluated.(*object.String)
-	if !ok {
-		t.Fatalf("str is not *object.String, got=%T (%+v)", evaluated, evaluated)
-	}
 
-	if str.Value != expected {
-		t.Errorf("str.Value is not %q, got=%q", expected, str.Value)
-	}
+	testStringObject(t, evaluated, expected)
 }
 
 func TestEvalStringConcatenation(t *testing.T) {
@@ -351,12 +360,6 @@ func TestEvalStringConcatenation(t *testing.T) {
 	expected := "Hello World!"
 
 	evaluated := testEval(input)
-	str, ok := evaluated.(*object.String)
-	if !ok {
-		t.Fatalf("str is not *object.String, got=%T (%+v)", evaluated, evaluated)
-	}
 
-	if str.Value != expected {
-		t.Errorf("str.Value is not %q, got=%q", expected, str.Value)
-	}
+	testStringObject(t, evaluated, expected)
 }
