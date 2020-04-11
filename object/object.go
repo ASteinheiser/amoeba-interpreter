@@ -24,6 +24,8 @@ const (
 	ERROR_OBJ = "ERROR"
 	// FUNCTION_OBJ is the object type for functions
 	FUNCTION_OBJ = "FUNCTION"
+	// STRING_OBJ is the object type for strings
+	STRING_OBJ = "STRING"
 )
 
 // Object is a wrapper for values that we evaluate
@@ -113,3 +115,14 @@ func (f *Function) Inspect() string {
 
 	return out.String()
 }
+
+// String is the object that holds strings
+type String struct {
+	Value string
+}
+
+// Inspect returns the value of the string
+func (s *String) Inspect() string { return s.Value }
+
+// Type returns the type string for the string
+func (s *String) Type() Type { return STRING_OBJ }
