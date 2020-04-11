@@ -22,6 +22,8 @@ const (
 	TRUE = "true"
 	// FALSE : boolean literal for false
 	FALSE = "false"
+	// STRING : string literal
+	STRING = "STRING"
 	// ASSIGN : sets an identifier equal to a literal
 	ASSIGN = "="
 	// PLUS : adds two integers
