@@ -231,6 +231,31 @@ func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
 	return true
 }
 
+func TestStringExpression(t *testing.T) {
+	input := `"hello world!"`
+	expected := "hello world!"
+
+	l := lexer.New(input)
+	p := New(l)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+
+	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("program.Statements[0] is not a *ast.ExpressionStatement, got=%T",
+			program.Statements[0])
+	}
+
+	literal, ok := stmt.Expression.(*ast.StringLiteral)
+	if !ok {
+		t.Fatalf("literal is not a *ast.StringLiteral, got=%T", stmt.Expression)
+	}
+
+	if literal.Value != expected {
+		t.Errorf("literal.Value is not %q, got=%q", expected, literal.Value)
+	}
+}
+
 func TestBooleanExpression(t *testing.T) {
 	input := `
 		false;
