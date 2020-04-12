@@ -367,3 +367,34 @@ func TestEvalStringConcatenation(t *testing.T) {
 
 	testStringObject(t, evaluated, expected)
 }
+
+func TestEvalBuiltinFunctions(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected interface{}
+	}{
+		{`len("")`, 0},
+		{`len("four")`, 4},
+		{`len(" hey world ! ")`, 13},
+		{`len(1)`, "argument to `len` not supported: INTEGER"},
+		{`len(true)`, "argument to `len` not supported: BOOLEAN"},
+		{`len("one", "two")`, "wrong number of arguments passed to `len`: got=2, want=1"},
+	}
+
+	for _, test := range tests {
+		evaluated := testEval(test.input)
+
+		switch expected := test.expected.(type) {
+		case int:
+			testIntegerObject(t, evaluated, int64(expected))
+		case string:
+			errObj, ok := evaluated.(*object.Error)
+			if !ok {
+				t.Errorf("errObj is not *object.Error, got=%T (%+v)", evaluated, evaluated)
+			}
+			if errObj.Message != expected {
+				t.Errorf("errObj.Message is wrong. expected=%q, got=%q", expected, errObj.Message)
+			}
+		}
+	}
+}
