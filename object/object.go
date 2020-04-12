@@ -26,7 +26,12 @@ const (
 	FUNCTION_OBJ = "FUNCTION"
 	// STRING_OBJ is the object type for strings
 	STRING_OBJ = "STRING"
+	// BUILTIN_OBJ is the object type for builtin functions
+	BUILTIN_OBJ = "BUILTIN"
 )
+
+// BuiltinFunction is the type for functions defined by the interpreter
+type BuiltinFunction func(args ...Object) Object
 
 // Object is a wrapper for values that we evaluate
 type Object interface {
@@ -126,3 +131,14 @@ func (s *String) Inspect() string { return s.Value }
 
 // Type returns the type string for the string
 func (s *String) Type() Type { return STRING_OBJ }
+
+// Builtin is the object that holds builtin functions
+type Builtin struct {
+	Fn BuiltinFunction
+}
+
+// Inspect returns a string for the builtin function
+func (b *Builtin) Inspect() string { return "builtin function" }
+
+// Type returns the type string for the builtin function
+func (b *Builtin) Type() Type { return BUILTIN_OBJ }
