@@ -56,6 +56,10 @@ const (
 	LBRACE = "{"
 	// RBRACE : close block of code
 	RBRACE = "}"
+	// LBRACKET : start array literal
+	LBRACKET = "["
+	// RBRACKET : end array literal
+	RBRACKET = "]"
 	// FUNCTION : create a function literal that
 	// accepts params and returns a value
 	FUNCTION = "FUNCTION"
