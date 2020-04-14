@@ -334,3 +334,29 @@ func (ce *CallExpression) String() string {
 
 	return out.String()
 }
+
+// ArrayLiteral is an Expression Node representing an array
+type ArrayLiteral struct {
+	Token    token.Token // should be a [ token
+	Elements []Expression
+}
+
+func (al *ArrayLiteral) expressionNode() {}
+
+// TokenLiteral returns the token literal for the array: [
+func (al *ArrayLiteral) TokenLiteral() string { return al.Token.Literal }
+
+func (al *ArrayLiteral) String() string {
+	var out bytes.Buffer
+
+	elements := []string{}
+	for _, el := range al.Elements {
+		elements = append(elements, el.String())
+	}
+
+	out.WriteString("[")
+	out.WriteString(strings.Join(elements, ", "))
+	out.WriteString("]")
+
+	return out.String()
+}
