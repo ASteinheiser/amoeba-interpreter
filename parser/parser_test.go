@@ -289,7 +289,7 @@ func TestBooleanExpression(t *testing.T) {
 func testBooleanLiteral(t *testing.T, b ast.Expression, value bool) bool {
 	boolean, ok := b.(*ast.BooleanLiteral)
 	if !ok {
-		t.Errorf("b is not *ast.BooleanLiteral, got=\"%T\"", b)
+		t.Errorf("boolean is not *ast.BooleanLiteral, got=\"%T\"", b)
 		return false
 	}
 
@@ -887,6 +887,6 @@ func TestArrayLiteralParsing(t *testing.T) {
 
 	testIntegerLiteral(t, array.Elements[0], 1)
 	testInfixLiteral(t, array.Elements[1], 2, "*", 4)
-	testInfixLiteral(t, array.Elements[1], 3, "+", 5)
-	testBooleanLiteral(t, array.Elements[2], true)
+	testInfixLiteral(t, array.Elements[2], 3, "+", 5)
+	testBooleanLiteral(t, array.Elements[3], true)
 }
