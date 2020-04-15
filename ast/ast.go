@@ -360,3 +360,27 @@ func (al *ArrayLiteral) String() string {
 
 	return out.String()
 }
+
+// IndexExpression is an Expression Node representing the access of an array index
+type IndexExpression struct {
+	Token token.Token // should be a [ token
+	Left  Expression
+	Index Expression
+}
+
+func (ie *IndexExpression) expressionNode() {}
+
+// TokenLiteral returns the token literal for the index expression: [
+func (ie *IndexExpression) TokenLiteral() string { return ie.Token.Literal }
+
+func (ie *IndexExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("(")
+	out.WriteString(ie.Left.String())
+	out.WriteString("[")
+	out.WriteString(ie.Index.String())
+	out.WriteString("])")
+
+	return out.String()
+}
