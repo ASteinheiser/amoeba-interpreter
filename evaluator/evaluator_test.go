@@ -416,3 +416,32 @@ func TestEvalArrayLiterals(t *testing.T) {
 	testIntegerObject(t, array.Elements[1], 8)
 	testIntegerObject(t, array.Elements[2], 13)
 }
+
+func TestEvalArrayIndexExpessions(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected interface{}
+	}{
+		{"[4, 3, 2][0]", 4},
+		{"[4, 3, 2][1]", 3},
+		{"[4, 3, 2][2]", 2},
+		{"[4, 3, 2][3]", nil},
+		{"[4, 3, 2][-1]", nil},
+		{"let i = 0; [4, 3, 2][i]", 4},
+		{"[4, 3, 2][1 + 1]", 2},
+		{"let myArray = [4, 3, 2]; myArray[1]", 3},
+		{"let myArray = [4, 3, 2]; myArray[0] + myArray[1] + myArray[2]", 9},
+		{"let myArray = [4, 3, 2]; let i = myArray[0] - 3; myArray[i]", 3},
+	}
+
+	for _, test := range tests {
+		evaluated := testEval(test.input)
+
+		integer, ok := test.expected.(int)
+		if ok {
+			testIntegerObject(t, evaluated, int64(integer))
+		} else {
+			testNullObject(t, evaluated)
+		}
+	}
+}
