@@ -386,6 +386,10 @@ func TestEvalBuiltinFunctions(t *testing.T) {
 		{`first([1, 2, 3, 4])`, 1},
 		{`first("yo!")`, "argument to `first` must be ARRAY, got STRING"},
 		{`first([1, 2], [3, 4])`, "wrong number of arguments passed to `first`: got 2, want 1"},
+		{`last([])`, nil},
+		{`last([1, 2, 3, 4])`, 4},
+		{`last("yo!")`, "argument to `last` must be ARRAY, got STRING"},
+		{`last([1, 2], [3, 4])`, "wrong number of arguments passed to `last`: got 2, want 1"},
 	}
 
 	for _, test := range tests {
