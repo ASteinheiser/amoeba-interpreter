@@ -381,7 +381,11 @@ func TestEvalBuiltinFunctions(t *testing.T) {
 		{`len(["sup", 2, true, 4 + 7])`, 4},
 		{`len(1)`, "argument to `len` not supported: INTEGER"},
 		{`len(true)`, "argument to `len` not supported: BOOLEAN"},
-		{`len("one", "two")`, "wrong number of arguments passed to `len`: got=2, want=1"},
+		{`len("one", "two")`, "wrong number of arguments passed to `len`: got 2, want 1"},
+		{`first([])`, nil},
+		{`first([1, 2, 3, 4])`, 1},
+		{`first("yo!")`, "argument to `first` must be ARRAY, got STRING"},
+		{`first([1, 2], [3, 4])`, "wrong number of arguments passed to `first`: got 2, want 1"},
 	}
 
 	for _, test := range tests {
@@ -398,6 +402,8 @@ func TestEvalBuiltinFunctions(t *testing.T) {
 			if errObj.Message != expected {
 				t.Errorf("errObj.Message is wrong. expected=%q, got=%q", expected, errObj.Message)
 			}
+		default:
+			testNullObject(t, evaluated)
 		}
 	}
 }
