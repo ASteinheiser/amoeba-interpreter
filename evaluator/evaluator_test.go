@@ -390,6 +390,14 @@ func TestEvalBuiltinFunctions(t *testing.T) {
 		{`last([1, 2, 3, 4])`, 4},
 		{`last("yo!")`, "argument to `last` must be ARRAY, got STRING"},
 		{`last([1, 2], [3, 4])`, "wrong number of arguments passed to `last`: got 2, want 1"},
+		{`rest([])`, nil},
+		{`rest([1])`, []int{}},
+		{`rest([1, 2, 3, 4])`, []int{2, 3, 4}},
+		{`rest(rest(rest([1, 2, 3, 4])))`, []int{4}},
+		{`rest(rest(rest(rest([1, 2, 3, 4]))))`, []int{}},
+		{`rest(rest(rest(rest(rest([1, 2, 3, 4])))))`, nil},
+		{`rest("yo!")`, "argument to `rest` must be ARRAY, got STRING"},
+		{`rest([1, 2], [3, 4])`, "wrong number of arguments passed to `rest`: got 2, want 1"},
 	}
 
 	for _, test := range tests {
@@ -398,6 +406,14 @@ func TestEvalBuiltinFunctions(t *testing.T) {
 		switch expected := test.expected.(type) {
 		case int:
 			testIntegerObject(t, evaluated, int64(expected))
+		case []int:
+			arr, ok := evaluated.(*object.Array)
+			if !ok {
+				t.Errorf("arr is not *object.Array, got=%T (%+v)", evaluated, evaluated)
+			}
+			for idx, elem := range arr.Elements {
+				testIntegerObject(t, elem, int64(expected[idx]))
+			}
 		case string:
 			errObj, ok := evaluated.(*object.Error)
 			if !ok {
