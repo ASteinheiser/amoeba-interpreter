@@ -398,6 +398,12 @@ func TestEvalBuiltinFunctions(t *testing.T) {
 		{`rest(rest(rest(rest(rest([1, 2, 3, 4])))))`, nil},
 		{`rest("yo!")`, "argument to `rest` must be ARRAY, got STRING"},
 		{`rest([1, 2], [3, 4])`, "wrong number of arguments passed to `rest`: got 2, want 1"},
+		{`push([], 1)`, []int{1}},
+		{`push([1], 2)`, []int{1, 2}},
+		{`push([1, 2, 3, 4], 6 + 3)`, []int{1, 2, 3, 4, 9}},
+		{`push("yo!", 5)`, "first argument to `push` must be ARRAY, got STRING"},
+		{`push([1, 2])`, "wrong number of arguments passed to `push`: got 1, want 2"},
+		{`push([1, 2], 1, true)`, "wrong number of arguments passed to `push`: got 3, want 2"},
 	}
 
 	for _, test := range tests {
