@@ -48,6 +48,8 @@ const (
 	COMMA = ","
 	// SEMICOLON : ends a statement
 	SEMICOLON = ";"
+	// COLON : used when defining a hash
+	COLON = ":"
 	// LPAREN : start listing function call params
 	LPAREN = "("
 	// RPAREN : stop listing function call params
