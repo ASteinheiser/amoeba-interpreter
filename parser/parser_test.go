@@ -942,8 +942,13 @@ func TestHashLiteralParsing(t *testing.T) {
 		t.Fatalf("length of hash pairs is wrong. wanted=3, got=%d", len(hash.Pairs))
 	}
 
+	type infixExpected struct {
+		left  int64
+		op    string
+		right int64
+	}
 	expected := map[string]interface{}{
-		"key1":       func(e ast.Expression) { testInfixLiteral(t, e, 4, "+", 4) },
+		"key1":       infixExpected{4, "+", 4},
 		"anotherOne": 7,
 		"bool":       true,
 	}
@@ -961,8 +966,8 @@ func TestHashLiteralParsing(t *testing.T) {
 			testIntegerLiteral(t, value, int64(ev))
 		case bool:
 			testBooleanLiteral(t, value, bool(ev))
-		case func():
-			ev()
+		case infixExpected:
+			testInfixLiteral(t, value, ev.left, ev.op, ev.right)
 		}
 	}
 }
