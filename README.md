@@ -43,3 +43,4 @@ go test ./evaluator/
 - [ ] add <= and >= operators
 - [ ] enhance error messages with line number and file name
 - [ ] add postfix operators (such as `++`)
+- [ ] prettier printing of function, array, and hash values
