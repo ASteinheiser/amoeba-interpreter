@@ -248,6 +248,14 @@ func TestErrorHandling(t *testing.T) {
 			`"Hello" - "World"`,
 			"unknown operator: STRING - STRING",
 		},
+		{
+			`{12: "something"}`,
+			"invalid hash key: INTEGER",
+		},
+		{
+			`{true: "something"}`,
+			"invalid hash key: BOOLEAN",
+		},
 	}
 
 	for _, test := range tests {
@@ -478,5 +486,41 @@ func TestEvalArrayIndexExpessions(t *testing.T) {
 		} else {
 			testNullObject(t, evaluated)
 		}
+	}
+}
+
+func TestEvalHashLiterals(t *testing.T) {
+	input := `
+		let two = "two";
+		{
+			"one": 1,
+			two: 1 + 1,
+			"thr" + "ee": 6 / 2
+		}
+	`
+
+	evaluated := testEval(input)
+	hash, ok := evaluated.(*object.Hash)
+	if !ok {
+		t.Fatalf("hash not of type *object.Hash, got=%T (%+v)", evaluated, evaluated)
+	}
+
+	expected := map[string]int64{
+		"one":   1,
+		"two":   2,
+		"three": 3,
+	}
+
+	if len(hash.Pairs) != len(expected) {
+		t.Fatalf("hash has wrong number of pairs. got=%d, want=%d", len(hash.Pairs), len(expected))
+	}
+
+	for expectedKey, expectedVal := range expected {
+		value, ok := hash.Pairs[expectedKey]
+		if !ok {
+			t.Errorf("no value found for key=%s", expectedKey)
+		}
+
+		testIntegerObject(t, value, expectedVal)
 	}
 }
