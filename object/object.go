@@ -30,6 +30,8 @@ const (
 	BUILTIN_OBJ = "BUILTIN"
 	// ARRAY_OBJ is the object type for arrays
 	ARRAY_OBJ = "ARRAY"
+	// HASH_OBJ is the object type for hashes
+	HASH_OBJ = "HASH"
 )
 
 // BuiltinFunction is the type for functions defined by the interpreter
@@ -168,3 +170,27 @@ func (ao *Array) Inspect() string {
 
 // Type returns the type string for the array
 func (ao *Array) Type() Type { return ARRAY_OBJ }
+
+// Hash is the object that holds hashes
+type Hash struct {
+	Pairs map[string]Object
+}
+
+// Inspect returns a string representing the hash
+func (h *Hash) Inspect() string {
+	var out bytes.Buffer
+
+	pairs := []string{}
+	for key, val := range h.Pairs {
+		pairs = append(pairs, key+":"+val.Inspect())
+	}
+
+	out.WriteString("{")
+	out.WriteString(strings.Join(pairs, ", "))
+	out.WriteString("}")
+
+	return out.String()
+}
+
+// Type returns the type string for the hash
+func (h *Hash) Type() Type { return HASH_OBJ }
