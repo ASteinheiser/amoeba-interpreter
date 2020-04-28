@@ -256,6 +256,18 @@ func TestErrorHandling(t *testing.T) {
 			`{true: "something"}`,
 			"invalid hash key: BOOLEAN",
 		},
+		{
+			`{"foo": 4}[true]`,
+			"index operator not supported: HASH[BOOLEAN]",
+		},
+		{
+			`{"foo": 4}[7]`,
+			"index operator not supported: HASH[INTEGER]",
+		},
+		{
+			`{"foo": 4}[fn(x) {x + x}]`,
+			"index operator not supported: HASH[FUNCTION]",
+		},
 	}
 
 	for _, test := range tests {
@@ -522,5 +534,44 @@ func TestEvalHashLiterals(t *testing.T) {
 		}
 
 		testIntegerObject(t, value, expectedVal)
+	}
+}
+
+func TestEvalHashIndexExpessions(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected interface{}
+	}{
+		{
+			`{"key1": 4}["key1"]`,
+			4,
+		},
+		{
+			`{"key1": 4}["key2"]`,
+			nil,
+		},
+		{
+			`let key = "foo"; {"foo": 4}[key]`,
+			4,
+		},
+		{
+			`let key = "foo"; {key: 4}["foo"]`,
+			4,
+		},
+		{
+			`{}["key1"]`,
+			nil,
+		},
+	}
+
+	for _, test := range tests {
+		evaluated := testEval(test.input)
+
+		integer, ok := test.expected.(int)
+		if ok {
+			testIntegerObject(t, evaluated, int64(integer))
+		} else {
+			testNullObject(t, evaluated)
+		}
 	}
 }
