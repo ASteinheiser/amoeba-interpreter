@@ -1,8 +1,22 @@
 package evaluator
 
-import "github.com/ASteinheiser/amoeba-interpreter/object"
+import (
+	"fmt"
+
+	"github.com/ASteinheiser/amoeba-interpreter/object"
+)
 
 var builtins = map[string]*object.Builtin{
+	"print": {
+		Fn: func(args ...object.Object) object.Object {
+			fmt.Println()
+			for _, arg := range args {
+				fmt.Println(arg.Inspect())
+			}
+
+			return NULL
+		},
+	},
 	"len": {
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
