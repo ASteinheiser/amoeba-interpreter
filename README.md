@@ -7,11 +7,25 @@ An interpreter for the Amoeba programming language. Written from scratch in Go w
 - arithmetic expressions
 - first-class and higher-order functions
 - closures
+- builtin functions:
+  - amoeba(): prints out awesome ascii art
+  - len(ARRAY or STRING): returns length of string or array
+  - push(ARRAY, ANY): adds new item to array (does not mutate)
+  - first(ARRAY): returns first item in array
+  - rest(ARRAY): returns all but first item in array
+  - last(ARRAY): returns last item in array
+  - print(ANY, ANY, ...): prints out to the console
 
-## Run the Amoeba REPL
+## Give the Amoeba REPL a try!
 1. `git clone https://github.com/ASteinheiser/amoeba-interpreter.git`
 1. `cd amoeba-interpreter`
 1. `./amoeba-interpreter`
+
+<img
+  src="https://s3-us-west-2.amazonaws.com/images.iamandrew.io/Screen+Shot+2020-04-29+at+6.11.42+PM.png"
+  width="800px"
+  alt="REPL Screenshot"
+/>
 
 ## Local Dev
 1. Install [Go](https://golang.org/dl/)
@@ -44,3 +58,4 @@ go test ./evaluator/
 - [ ] enhance error messages with line number and file name
 - [ ] add postfix operators (such as `++`)
 - [ ] prettier printing of function, array, and hash values
+- [ ] move amoeba ascii art into function
