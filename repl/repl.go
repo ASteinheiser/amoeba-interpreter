@@ -58,33 +58,12 @@ func ShowPrompt() {
 }
 
 func printParserErrors(out io.Writer, errors []string) {
-	ShowAmoeba(out)
-	io.WriteString(out, "  Oops! Looks like your syntax got infected...\n")
+	io.WriteString(out, "\n  Oops! Looks like your syntax has an issue...\n")
 	io.WriteString(out, "    parser errors:\n\n")
 
 	color.Foreground(color.Red, false)
 	for _, msg := range errors {
 		io.WriteString(out, "      "+msg+"\n\n")
 	}
-	color.ResetColor()
-}
-
-// ShowAmoeba prints the ASCII amoeba
-func ShowAmoeba(out io.Writer) {
-	color.Foreground(color.Green, false)
-	io.WriteString(out, "\n")
-	io.WriteString(out, "             ,,,,g,\n")
-	io.WriteString(out, "           #\"`    `@\n")
-	io.WriteString(out, "          @        \\b\n")
-	io.WriteString(out, "          jb    ##m @      ,smWWm\n")
-	io.WriteString(out, "           7m  ]#### '`7^\"\"      @\n")
-	io.WriteString(out, "             %p 7##b      #j@     b\n")
-	io.WriteString(out, "              @            ,,,,,,M`\n")
-	io.WriteString(out, "              @    ,w    ,M|'\n")
-	io.WriteString(out, "            ,#`   7m#`  ]b\n")
-	io.WriteString(out, "            @b         {^\n")
-	io.WriteString(out, "             %m     a#/\n")
-	io.WriteString(out, "               ^\"\"`^\n")
-	io.WriteString(out, "\n")
 	color.ResetColor()
 }

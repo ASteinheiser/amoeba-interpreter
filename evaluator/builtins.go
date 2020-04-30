@@ -3,6 +3,7 @@ package evaluator
 import (
 	"fmt"
 
+	"github.com/ASteinheiser/amoeba-interpreter/color"
 	"github.com/ASteinheiser/amoeba-interpreter/object"
 )
 
@@ -105,6 +106,28 @@ var builtins = map[string]*object.Builtin{
 			newElements[length] = args[1]
 
 			return &object.Array{Elements: newElements}
+		},
+	},
+	"amoeba": {
+		Fn: func(args ...object.Object) object.Object {
+			color.Foreground(color.Green, false)
+			fmt.Print("\n")
+			fmt.Print("             ,,,,g,\n")
+			fmt.Print("           #\"`    `@\n")
+			fmt.Print("          @        \\b\n")
+			fmt.Print("          jb    ##m @      ,smWWm\n")
+			fmt.Print("           7m  ]#### '`7^\"\"      @\n")
+			fmt.Print("             %p 7##b      #j@     b\n")
+			fmt.Print("              @            ,,,,,,M`\n")
+			fmt.Print("              @    ,w    ,M|'\n")
+			fmt.Print("            ,#`   7m#`  ]b\n")
+			fmt.Print("            @b         {^\n")
+			fmt.Print("             %m     a#/\n")
+			fmt.Print("               ^\"\"`^\n")
+			fmt.Print("\n")
+			color.ResetColor()
+
+			return NULL
 		},
 	},
 }

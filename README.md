@@ -1,6 +1,12 @@
 # amoeba-interpreter
 An interpreter for the Amoeba programming language. Written from scratch in Go with no dependencies 🎉
 
+<img
+  src="https://s3-us-west-2.amazonaws.com/images.iamandrew.io/Screen+Shot+2020-04-29+at+11.27.28+PM.png"
+  width="400px"
+  alt="Amoeba Screenshot"
+/>
+
 ## Features
 - C-like syntax
 - variables (integers, booleans, strings, arrays, objects)
@@ -58,4 +64,3 @@ go test ./evaluator/
 - [ ] enhance error messages with line number and file name
 - [ ] add postfix operators (such as `++`)
 - [ ] prettier printing of function, array, and hash values
-- [ ] move amoeba ascii art into function
