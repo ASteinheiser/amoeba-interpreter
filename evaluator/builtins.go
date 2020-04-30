@@ -117,7 +117,7 @@ var builtins = map[string]*object.Builtin{
 			fmt.Print("          @        \\b\n")
 			fmt.Print("          jb    ##m @      ,smWWm\n")
 			fmt.Print("           7m  ]#### '`7^\"\"      @\n")
-			fmt.Print("             %p 7##b      #j@     b\n")
+			fmt.Print("             %n 7##b      #j@     b\n")
 			fmt.Print("              @            ,,,,,,M`\n")
 			fmt.Print("              @    ,w    ,M|'\n")
 			fmt.Print("            ,#`   7m#`  ]b\n")
