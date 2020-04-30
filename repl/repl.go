@@ -29,21 +29,25 @@ func Start(in io.Reader, out io.Writer) {
 			return
 		}
 
-		l := lexer.New(line)
-		p := parser.New(l)
+		evaluateProgram(line, out, env)
+	}
+}
 
-		program := p.ParseProgram()
-		if len(p.Errors()) != 0 {
-			printParserErrors(out, p.Errors())
-			continue
-		}
+func evaluateProgram(input string, out io.Writer, env *object.Environment) {
+	l := lexer.New(input)
+	p := parser.New(l)
 
-		evaluated := evaluator.Eval(program, env)
-		if evaluated != nil {
-			io.WriteString(out, "\n")
-			io.WriteString(out, evaluated.Inspect())
-			io.WriteString(out, "\n\n")
-		}
+	program := p.ParseProgram()
+	if len(p.Errors()) != 0 {
+		printParserErrors(out, p.Errors())
+		return
+	}
+
+	evaluated := evaluator.Eval(program, env)
+	if evaluated != nil {
+		io.WriteString(out, "\n")
+		io.WriteString(out, evaluated.Inspect())
+		io.WriteString(out, "\n\n")
 	}
 }
 
