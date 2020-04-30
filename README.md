@@ -3,7 +3,7 @@ An interpreter for the Amoeba programming language. Written from scratch in Go w
 
 <img
   src="https://s3-us-west-2.amazonaws.com/images.iamandrew.io/Screen+Shot+2020-04-29+at+11.27.28+PM.png"
-  width="400px"
+  width="500px"
   alt="Amoeba Screenshot"
 />
 
