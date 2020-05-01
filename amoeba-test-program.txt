@@ -1,0 +1,22 @@
+let myArray = [1, 2, 3, 4]
+let myArray = push(myArray, 5)
+
+let sumArray = fn(arr) {
+  let _sumArray = fn(arr, count) {
+    let item = first(arr)
+    if (item) {
+      let count = count + item
+      return _sumArray(rest(arr), count)
+    } else {
+      return count
+    }
+  }
+
+  return _sumArray(arr, 0)
+}
+
+print(sumArray(myArray))
+
+let myArray = push(myArray, 6)
+
+sumArray(myArray)

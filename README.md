@@ -1,4 +1,4 @@
-# amoeba-interpreter
+# Amoeba Interpreter
 An interpreter for the Amoeba programming language. Written from scratch in Go with no dependencies 🎉
 
 <img
@@ -22,10 +22,16 @@ An interpreter for the Amoeba programming language. Written from scratch in Go w
   - last(ARRAY): returns last item in array
   - print(ANY, ANY, ...): prints out to the console
 
-## Give the Amoeba REPL a try!
+# Give it a try!
+## Clone
 1. `git clone https://github.com/ASteinheiser/amoeba-interpreter.git`
 1. `cd amoeba-interpreter`
-1. `./amoeba-interpreter`
+
+## Then pass a file path as an argument
+`./amoeba-interpreter -file=amoeba-test-program.txt`
+
+## OR use the REPL
+`./amoeba-interpreter`
 
 <img
   src="https://s3-us-west-2.amazonaws.com/images.iamandrew.io/Screen+Shot+2020-04-29+at+6.11.42+PM.png"
@@ -33,7 +39,7 @@ An interpreter for the Amoeba programming language. Written from scratch in Go w
   alt="REPL Screenshot"
 />
 
-## Local Dev
+# Local Dev
 1. Install [Go](https://golang.org/dl/)
 1. `git clone https://github.com/ASteinheiser/amoeba-interpreter.git`
 1. `cd amoeba-interpreter`
@@ -58,7 +64,6 @@ go test ./evaluator/
 />
 
 ## Backburner Features
-- [ ] allow repl to take a file as arg
 - [ ] add <= and >= operators
 - [ ] enhance error messages with line number and file name
 - [ ] add postfix operators (such as `++`)
