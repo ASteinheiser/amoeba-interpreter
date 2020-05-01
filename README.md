@@ -63,8 +63,8 @@ go test ./evaluator/
   alt="Tests Screenshot"
 />
 
-## Backburner Features
+## Roadmap
 - [ ] add <= and >= operators
-- [ ] enhance error messages with line number and file name
 - [ ] add postfix operators (such as `++`)
 - [ ] prettier printing of function, array, and hash values
+- [ ] enhance error messages with line number and file name
