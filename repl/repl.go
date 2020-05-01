@@ -2,8 +2,12 @@ package repl
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"io"
+	"io/ioutil"
+	"os/user"
+	"strings"
 
 	"github.com/ASteinheiser/amoeba-interpreter/color"
 	"github.com/ASteinheiser/amoeba-interpreter/evaluator"
@@ -14,22 +18,43 @@ import (
 
 // Start will start a new amoeba REPL
 func Start(in io.Reader, out io.Writer) {
-	scanner := bufio.NewScanner(in)
 	env := object.NewEnvironment()
 
-	for {
-		ShowPrompt()
-		scanned := scanner.Scan()
-		if !scanned {
+	filePath := flag.String("file", "", "file path to read from")
+	flag.Parse()
+
+	if *filePath != "" {
+		data, err := ioutil.ReadFile(*filePath)
+		if err != nil {
+			fmt.Println("File reading error:", err)
 			return
 		}
 
-		line := scanner.Text()
-		if line == "exit" || line == "quit" {
-			return
+		evaluateProgram(string(data), out, env)
+	} else {
+		user, err := user.Current()
+		if err != nil {
+			panic(err)
 		}
 
-		evaluateProgram(line, out, env)
+		showWelcomeMessage(user)
+
+		scanner := bufio.NewScanner(in)
+
+		for {
+			ShowPrompt()
+			scanned := scanner.Scan()
+			if !scanned {
+				return
+			}
+
+			line := scanner.Text()
+			if line == "exit" || line == "quit" {
+				return
+			}
+
+			evaluateProgram(line, out, env)
+		}
 	}
 }
 
@@ -70,4 +95,32 @@ func printParserErrors(out io.Writer, errors []string) {
 		io.WriteString(out, "      "+msg+"\n\n")
 	}
 	color.ResetColor()
+}
+
+func showWelcomeMessage(user *user.User) {
+	color.ChangeColor(color.None, false, color.Black, false)
+	fmt.Print("                                                 ")
+	color.ResetColor()
+	fmt.Print("\n")
+	color.ChangeColor(color.Cyan, false, color.Black, false)
+	fmt.Print("    Hello ")
+	color.ChangeColor(color.Magenta, false, color.Black, false)
+	fmt.Printf("%s", strings.ToUpper(user.Username))
+	color.ChangeColor(color.Cyan, false, color.Black, false)
+	fmt.Print(", Welcome to the Amoeba REPL!    ")
+	color.ResetColor()
+	fmt.Print("\n")
+	color.ChangeColor(color.None, false, color.Black, false)
+	fmt.Print("                                                 ")
+	color.ResetColor()
+	fmt.Print("\n")
+	color.ChangeColor(color.Cyan, false, color.Black, false)
+	fmt.Printf("    You can like... type code and stuff...       ")
+	color.ResetColor()
+	fmt.Print("\n")
+	color.ChangeColor(color.None, false, color.Black, false)
+	fmt.Print("                                                 ")
+	color.ResetColor()
+	fmt.Print("\n")
+	fmt.Print("\n")
 }
