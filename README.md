@@ -2,7 +2,7 @@
 An interpreter for the Amoeba programming language. Written from scratch in Go with no dependencies 🎉
 
 <img
-  src="https://s3-us-west-2.amazonaws.com/images.iamandrew.io/Screen+Shot+2020-04-29+at+11.27.28+PM.png"
+  src="./amoeba-splash.png"
   width="500px"
   alt="Amoeba Screenshot"
 />
@@ -34,7 +34,7 @@ An interpreter for the Amoeba programming language. Written from scratch in Go w
 `./amoeba-interpreter`
 
 <img
-  src="https://s3-us-west-2.amazonaws.com/images.iamandrew.io/Screen+Shot+2020-04-29+at+6.11.42+PM.png"
+  src="./amoeba-example.png"
   width="800px"
   alt="REPL Screenshot"
 />
@@ -58,7 +58,7 @@ go test ./evaluator/
 ./run-tests.sh
 ```
 <img
-  src="https://s3-us-west-2.amazonaws.com/images.iamandrew.io/Screen+Shot+2019-12-04+at+12.50.45+AM.png"
+  src="./amoeba-test.png"
   width="600px"
   alt="Tests Screenshot"
 />
